@@ -69,6 +69,8 @@
 
 <h6>views (Object)</h6>
 
+<p>The <strong>views</strong> properties </p>
+
 <div class="highlight"><pre><span class="nx">views</span> <span class="o">:</span> <span class="p">{</span> 
 
     <span class="s1">'#Selector'</span><span class="o">:</span><span class="nx">ViewClass</span><span class="p">,</span>
@@ -89,11 +91,39 @@
 <h6>tpl (String)</h6>
 
 <div class="highlight"><pre>
-<span class="nx">tpl</span> <span class="o">:</span> <span class="s2">"My awesome car is a {{brand}} {{carName}}"</span>
+<span class="nx">tpl</span> <span class="o">:</span> <span class="s2">"My awesome car is a {{brand}} {{name}}"</span>
 
 </pre></div>
 
-<h1>Example</h1>
+<h3>Example</h3>
+
+<div class="highlight"><pre>
+<span class="c1">// Basic models and collection</span>
+<span class="kd">var</span> <span class="nx">Car</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">extend</span><span class="p">({});</span>
+
+<span class="kd">var</span> <span class="nx">toyota</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Car</span><span class="p">({</span><span class="nx">brand</span><span class="o">:</span><span class="s2">"Toyota"</span><span class="p">,</span><span class="nx">name</span><span class="o">:</span><span class="s2">"Yaris"</span><span class="p">});</span>
+<span class="kd">var</span> <span class="nx">bmw</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Car</span><span class="p">({</span><span class="nx">brand</span><span class="o">:</span><span class="s2">"BMW"</span><span class="p">,</span><span class="nx">name</span><span class="o">:</span><span class="s2">"M3"</span><span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">Garage</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Collection</span><span class="p">.</span><span class="nx">extend</span><span class="p">({});</span>
+
+<span class="kd">var</span> <span class="nx">myGarage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Garage</span><span class="p">([</span><span class="nx">toyota</span><span class="p">,</span><span class="nx">bmw</span><span class="p">]);</span>
+
+<span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">tagName</span><span class="o">:</span><span class="s2">"ul"</span><span class="p">,</span>
+  <span class="nx">tpl</span><span class="o">:</span><span class="s2">"I have a {{brand}} {{name}} in my garage"</span><span class="p">,</span>
+
+  <span class="nx">modelView</span><span class="o">:</span><span class="p">{</span>
+   <span class="nx">tagName</span><span class="o">:</span><span class="s2">"li"</span>
+  <span class="p">}</span>  
+
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">myGarageView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GarageView</span><span class="p">({</span><span class="nx">collection</span><span class="o">:</span><span class="nx">myGarage</span><span class="p">});</span>
+<span class="c1">// Render the view =&gt; all the subsequent model views are created!</span>
+<span class="nx">myGarageView</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+
+
+</pre></div>
 
 <h1>Global Configuration</h1>
       </section>
