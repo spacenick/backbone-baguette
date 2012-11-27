@@ -227,8 +227,32 @@
 <div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
 
+    <span class="nx">initialize</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'add reset remove'</span><span class="p">,</span><span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">,</span><span class="k">this</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="nx">render</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">empty</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+         <span class="kd">var</span> <span class="nx">newView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CarView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">model</span><span class="p">});</span>
+         <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">newView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">);</span>
+      <span class="p">})</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">}</span>
 
 <span class="p">})</span>
+</pre></div>
+
+<p><strong>I don't want my Composite Views to auto-bind themselves!</strong></p>
+
+<p>Well then you can right now exit this page. But seriously, you can just add the <strong>noBind</strong> attribute to the CompositeView and set it to <strong>true</strong>; either by defining it in your Class definition, either by passing it as an option when you instantiate your CompositeView.</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">NoBindView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+   <span class="nx">noBind</span><span class="o">:</span><span class="kc">true</span>
+<span class="p">});</span>
+
+<span class="c1">// Or you can just do</span>
+<span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">({</span><span class="nx">noBind</span><span class="o">:</span><span class="kc">true</span><span class="p">})</span>
 </pre></div>
 
 <h6>Create generic loaders for all your models/collections</h6>
