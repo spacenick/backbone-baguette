@@ -309,7 +309,7 @@
 
 <span class="kd">var</span> <span class="nx">CarView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
 
-  <span class="nx">tpl</span><span class="o">:</span><span class="s1">'&lt;p&gt;&lt;/p&gt;&lt;button class="info"&gt;&lt;/button&gt;'</span><span class="p">,</span>
+  <span class="nx">tpl</span><span class="o">:</span><span class="s1">'&lt;p&gt;{{brand}} - {{name}}&lt;/p&gt;&lt;button class="info"&gt;&lt;/button&gt;'</span><span class="p">,</span>
   <span class="nx">nestedViews</span><span class="o">:</span><span class="p">{</span>
     <span class="s2">".info"</span><span class="o">:</span><span class="nx">SelectButton</span>
   <span class="p">}</span>
@@ -319,10 +319,34 @@
 <span class="kd">var</span> <span class="nx">myCarView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CarView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">toyota</span><span class="p">});</span>
 <span class="nx">myCarView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="s1">'body'</span><span class="p">);</span>
 <span class="c1">// The inner button is rendered and ready to handle the click!</span>
+<span class="c1">// Our Car View is also filled with the good *brand* and *name* values</span>
 
 </pre></div>
 
-<p>In the above example, our SelectButton class is instantiated within the CarView render method, and by default Baguette is using the selector as the <strong>el</strong> for our nested View. But you can also still auto-create the <strong>el</strong> for your nestedView, and add several others options by passing a parameter object which follows this syntax :</p>
+<p>In the above example, our SelectButton class is instantiated within the CarView render method. Note that <em>all the options -except DOM options-</em> we passed to the CarView when we instantiated it (so here it is {model:toyota}) are given to the nested views.</p>
+
+<p>By default Baguette is using the selector as the <strong>el</strong> for our nested View. But you can also still auto-create the <strong>el</strong> for your nestedView, and add several others options by passing a parameter object which follows this syntax :</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">CarView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+  <span class="nx">tpl</span><span class="o">:</span><span class="s1">'&lt;p&gt;{{brand}} - {{name}}&lt;/p&gt;&lt;button class="info"&gt;&lt;/button&gt;'</span><span class="p">,</span>
+  <span class="nx">nestedViews</span><span class="o">:</span><span class="p">{</span>
+    <span class="s2">".info"</span><span class="o">:</span><span class="p">{</span>
+        <span class="kr">class</span><span class="o">:</span><span class="nx">SelectButton</span><span class="p">,</span>
+        <span class="nx">setElement</span><span class="o">:</span><span class="kc">false</span><span class="p">,</span> <span class="c1">// Will append the View INSIDE the selector instead of "replacing" it</span>
+     <span class="p">}</span>
+  <span class="p">}</span>
+
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">myCarView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CarView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">toyota</span><span class="p">});</span>
+<span class="nx">myCarView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="s1">'body'</span><span class="p">);</span>
+<span class="c1">// Now we have the following DOM elements on our body :</span>
+<span class="c1">// &lt;div&gt;&lt;p&gt;Toyota - Yaris&lt;/p&gt;&lt;button class="info"&gt;&lt;div&gt;Info&lt;/div&gt;&lt;/button&gt;&lt;/div&gt;</span>
+<span class="c1">// As we set setElement to false our NestedView is auto-creating its $el which is appended</span>
+<span class="c1">// to our .info container. (tagName is "div" by default in backbone)</span>
+
+</pre></div>
 
 <h6>Deeper dive in Nested Views : mixing it up</h6>
 
