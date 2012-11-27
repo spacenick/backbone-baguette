@@ -286,6 +286,46 @@
 <span class="p">}</span>
 </pre></div>
 
+<h6>Rendering Nested Views</h6>
+
+<p>Baguette offers you the ability to manage your nested views in an elegant and simple way. We often need to embed views in a view in order to separate tasks, or for other many reasons. Let's say we want to build a view for a Car and insert to this view a Button that will react to a click. We don't want to bind the click event on the Car view since we can imagine the button View can be reused elsewhre on the application. </p>
+
+<p>You can Baguettize it this way :</p>
+
+<div class="highlight"><pre>
+<span class="kd">var</span> <span class="nx">SelectButton</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+  <span class="nx">tpl</span><span class="o">:</span><span class="s1">'Info'</span><span class="p">,</span>
+  <span class="nx">className</span><span class="o">:</span><span class="s1">'btn btn-primary'</span><span class="p">,</span> <span class="c1">// twitter bootstrap styling</span>
+  <span class="nx">events</span><span class="o">:</span><span class="p">{</span>
+    <span class="s1">'click'</span><span class="o">:</span><span class="s1">'onClick'</span>
+  <span class="p">},</span>
+  <span class="nx">onClick</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">());</span>
+    <span class="c1">// Print informations or do stuff on Click.</span>
+  <span class="p">}</span> 
+
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">CarView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+  <span class="nx">tpl</span><span class="o">:</span><span class="s1">'&lt;p&gt;&lt;/p&gt;&lt;button class="info"&gt;&lt;/button&gt;'</span><span class="p">,</span>
+  <span class="nx">nestedViews</span><span class="o">:</span><span class="p">{</span>
+    <span class="s2">".info"</span><span class="o">:</span><span class="nx">SelectButton</span>
+  <span class="p">}</span>
+
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">myCarView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CarView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">toyota</span><span class="p">});</span>
+<span class="nx">myCarView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="s1">'body'</span><span class="p">);</span>
+<span class="c1">// The inner button is rendered and ready to handle the click!</span>
+
+</pre></div>
+
+<p>In the above example, our SelectButton class is instantiated within the CarView render method, and by default Baguette is using the selector as the <strong>el</strong> for our nested View. But you can also still auto-create the <strong>el</strong> for your nestedView, and add several others options by passing a parameter object which follows this syntax :</p>
+
+<h6>Deeper dive in Nested Views : mixing it up</h6>
+
 <h1>Baguette Components</h1>
 
 <p>A CompositeView is a view that is a kind of hybrid view able to render a collection or a model following a <strong>template</strong> with a very few number of arguments. It avoids the redundant templating and collection looping code and allows us to write less code.</p>
