@@ -68,6 +68,8 @@
 
 <p>When we're writing in Backbone, we quickly notice that we're writing a lot of similar views which are actually just using a template engine (such as Mustache or Handlebars) to render a JSON converted model. Instead of re-writing all the time the <em>template(this.model.toJSON())..</em> code you can baguettize it to achieve this.</p>
 
+<p><strong>With Backbone Baguette</strong></p>
+
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">ModelView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">tpl</span><span class="o">:</span><span class="s2">"My car is a {{brand}} {{name}}"</span><span class="p">,</span>
   <span class="nx">tagName</span><span class="o">:</span><span class="s2">"div"</span>
@@ -100,6 +102,22 @@
 </pre></div>
 
 <p>Since I am a fanatic of <a href="http://requirejs.org/">RequireJS</a>, tpl attribute is for now only supporting a raw string because I'm using the awesome <a href="https://github.com/requirejs/text">text plugin</a> to load asynchronosouly my .tpl files. Support for a jQuery selector to fetch a script text/template will be added soon!</p>
+
+<p><strong>Without Backbone Baguette</strong></p>
+
+<p>Basically we are rewriting all the time the good old render method which pretty much looks always the same...</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ModelView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+    <span class="nx">tagName</span><span class="o">:</span><span class="s2">"div"</span><span class="p">,</span>
+    <span class="nx">render</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">templated</span> <span class="o">=</span> <span class="nx">Handlebars</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">tpl</span><span class="p">)(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">());</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="nx">templated</span><span class="p">);</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">;</span>         
+    <span class="p">}</span>  
+
+<span class="p">});</span>
+</pre></div>
 
 <h6>Rendering a collection</h6>
 
@@ -147,6 +165,71 @@
 </pre></div>
 
 <p><em>If you use a parameter object, Baguette will create "anonymous" views inside the render function for you. Therefore you won't be able to define custom attributes -like events or so- on these views, are they will be originals Baguette CompositeView objects.</em></p>
+
+<p><strong>Without Backbone Baguette</strong></p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+    <span class="nx">render</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">empty</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+         <span class="kd">var</span> <span class="nx">newView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CarView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">model</span><span class="p">});</span>
+         <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">newView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">);</span>
+      <span class="p">})</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">})</span>
+</pre></div>
+
+<h6>Auto bind your view</h6>
+
+<p>Baguette automatically binds your View to the given model (or the given collection). That is, you don't need to rewrite the this.model.on(...) redundant code. We will here reuse the previous CarView.</p>
+
+<p><strong>With Backbone Baguette</strong></p>
+
+<div class="highlight"><pre>
+<span class="kd">var</span> <span class="nx">myView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CarView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">toyota</span><span class="p">});</span>
+<span class="nx">myView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="s1">'body'</span><span class="p">);</span> <span class="c1">// &lt;div&gt;My car is a Toyota Yaris&lt;/div&gt;</span>
+
+<span class="nx">toyota</span><span class="p">.</span><span class="nx">set</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span><span class="s2">"Yaris 2012"</span><span class="p">});</span>
+<span class="c1">// View is automatically refreshed and is set to &lt;div&gt;My car is a Toyota Yaris 2012&lt;/div&gt;</span>
+</pre></div>
+
+<p><strong>Without Backbone Baguette</strong></p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">CarView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+   <span class="nx">initialize</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'change'</span><span class="p">,</span><span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">,</span><span class="k">this</span><span class="p">);</span>
+   <span class="p">},</span>
+   <span class="nx">render</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">templated</span> <span class="o">=</span> <span class="nx">Handlebars</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">tpl</span><span class="p">)(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">());</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="nx">templated</span><span class="p">);</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+   <span class="p">}</span>
+
+<span class="p">});</span>
+</pre></div>
+
+<p>Collections are also auto binded. When you render a whole collection, Baguette is automatically binding the subsequent Model Views to the "remove" event of the assigned model. That is you don't need to care about this even if you are writing your own ModelView and passing it to the modelView attribute.</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">myGarageView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GarageView</span><span class="p">({</span><span class="nx">collection</span><span class="o">:</span><span class="nx">myGarage</span><span class="p">});</span>
+<span class="nx">myGarageView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="s1">'body'</span><span class="p">);</span>
+
+<span class="nx">myGarage</span><span class="p">.</span><span class="nx">fetch</span><span class="p">();</span> <span class="c1">// Will auto-render the view if new models are fetched</span>
+<span class="nx">myGarage</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="nx">brand</span><span class="o">:</span><span class="s2">"Peugeot"</span><span class="p">,</span><span class="nx">name</span><span class="o">:</span><span class="s2">"306"</span><span class="p">});</span> <span class="c1">// View is refreshed with new model</span>
+<span class="nx">myGarage</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">toyota</span><span class="p">);</span> <span class="c1">// View is refreshed without the new model</span>
+</pre></div>
+
+<p><strong>Without Backbone Baguette</strong></p>
+
+<div class="highlight"><pre>
+<span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+
+<span class="p">})</span>
+</pre></div>
 
 <h6>Create generic loaders for all your models/collections</h6>
 
