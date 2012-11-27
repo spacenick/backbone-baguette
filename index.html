@@ -48,28 +48,9 @@
       <section id="main_content">
         <h1>Backbone Baguette</h1>
 
-<p>The baguette's components are availables under the <strong>Backbone.Baguette</strong> namespace;</p>
+<p>Nothing better than concrete examples to understand how you can baguettize your Backbone development.</p>
 
-<h1>CompositeView</h1>
-
-<p>A CompositeView is a view that is a kind of hybrid view able to render a collection or a model following a <strong>template</strong> with a very few number of arguments. It avoids the redundant templating and collection looping code and allows us to write less code.</p>
-
-<p>Just like Backbone Views, you can (and you must!) inherit from a CompositeView to be able to use all its power.</p>
-
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">MyViewClass</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-   <span class="c1">// properties goes here</span>
-<span class="p">});</span>
-
-<span class="c1">// Classic instantiation of the view</span>
-<span class="kd">var</span> <span class="nx">myView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyViewClass</span><span class="p">();</span>
-
-</pre></div>
-
-<h3>Examples</h3>
-
-<p>Nothing better than a good set of examples to understand better how Baguette can help you do regular view related stuff in a quicker way.</p>
-
-<h6>Examples data</h6>
+<strong>Examples data</strong>
 
 <p>All the following examples will use the following models and collection : </p>
 
@@ -82,6 +63,37 @@
 <span class="kd">var</span> <span class="nx">Garage</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Collection</span><span class="p">.</span><span class="nx">extend</span><span class="p">({});</span>
 <span class="kd">var</span> <span class="nx">myGarage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Garage</span><span class="p">([</span><span class="nx">toyota</span><span class="p">,</span><span class="nx">bmw</span><span class="p">]);</span>
 </pre></div>
+
+<h6>Render a model view</h6>
+<p>When we're writing in Backbone, we quickly notice that we're writing a lot of similar views which are actually just using a template engine (such as <strong>Mustache</strong> or <strong>Handlebars</strong>)
+to render a JSON converted model. Instead of re-writing all the time the *template(this.model.toJSON())..* code you can baguettize it to achieve this.
+
+<div class="highlight">
+          <pre lang="javascript">
+              var ModelView = Backbone.Baguette.CompositeView.extend({
+                tpl:"My car is a {{brand}} {{name}}",
+                tagName:"div"
+              });
+
+             var myView = new ModelView({model:toyota});
+
+             myView.render().$el.appendTo('body'); // Appends to the body "My car is a Toyota Yaris"
+
+          </pre>
+
+</div>
+
+<p>Here we are using a "classic" Mustache-style template; but the default template engine used in Baguette is Handlebars. If you wish to change this, you have to edit the global configuration of Baguette and change
+    the templating function, which takes a string template and a JSON object and return the templated string.
+
+    <i>NB : you can also specify individually the <strong>templating</strong> property on each CompositeView, if you want to only edit some views and not the global Baguette templating function.</i>
+
+
+
+</p>
+
+<h6>Auto bind your view</h6>
+
 
 <h6>Rendering a collection</h6>
 
@@ -134,6 +146,29 @@
 </pre></div>
 
 <p><em>Your model views are passed all the options you gave to your GarageView instance; except the options related to the DOM such as tagName, etc...</em></p>
+
+
+<h6>Render nested views</h6>
+
+You can use Baguette to manage your nested views, and have a cleaner code.
+
+
+
+
+          <h1>Components</h1>
+
+          <p>A CompositeView is a view that is a kind of hybrid view able to render a collection or a model following a <strong>template</strong> with a very few number of arguments. It avoids the redundant templating and collection looping code and allows us to write less code.</p>
+
+          <p>Just like Backbone Views, you can (and you must!) inherit from a CompositeView to be able to use all its power.</p>
+
+          <div class="highlight"><pre><span class="kd">var</span> <span class="nx">MyViewClass</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+   <span class="c1">// properties goes here</span>
+<span class="p">});</span>
+
+<span class="c1">// Classic instantiation of the view</span>
+<span class="kd">var</span> <span class="nx">myView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyViewClass</span><span class="p">();</span>
+
+</pre></div>
 
 <h1>Global Configuration</h1>
       </section>
