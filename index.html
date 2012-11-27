@@ -99,78 +99,78 @@
 <span class="p">});</span>
 </pre></div>
 
-<p><em>As I am a fanatic of RequireJS, **tpl</em>* attribute is now <strong>only supporting</strong> a raw string because I'm using the awesome text plugin to load asynchronosouly my .tpl files. Support for a jQuery selector to fetch a  text/template will be added*&lt;/p&gt;
+<p>Since I am a fanatic of <a href="http://requirejs.org/">RequireJS</a>, tpl attribute is for now only supporting a raw string because I'm using the awesome <a href="https://github.com/requirejs/text">text plugin</a> to load asynchronosouly my .tpl files. Support for a jQuery selector to fetch a script text/template will be added soon!</p>
 
-&lt;h6&gt;Rendering a collection&lt;/h6&gt;
+<h6>Rendering a collection</h6>
 
-&lt;p&gt;You can use a Composite View to &lt;strong&gt;render a collection&lt;/strong&gt; and avoid to write the redundant &lt;em&gt;this.collection.each(....)&lt;/em&gt; code.&lt;/p&gt;
+<p>You can use a Composite View to <strong>render a collection</strong> and avoid to write the redundant <em>this.collection.each(....)</em> code.</p>
 
-&lt;p&gt;To achieve this you can define the &lt;strong&gt;modelView&lt;/strong&gt; parameter which is either a Backbone.View (or a Baguette CompositeView obviously) definition (not an instance!) or either a parameter object which can contain the traditional Backbone Views parameters to create an el, such as &lt;strong&gt;tagName&lt;/strong&gt;, &lt;strong&gt;className&lt;/strong&gt;, etc...&lt;/p&gt;
+<p>To achieve this you can define the <strong>modelView</strong> parameter which is either a Backbone.View (or a Baguette CompositeView obviously) definition (not an instance!) or either a parameter object which can contain the traditional Backbone Views parameters to create an el, such as <strong>tagName</strong>, <strong>className</strong>, etc...</p>
 
-&lt;p&gt;&lt;em&gt;If you use the second option, Baguette will create &amp;quot;anonymous&amp;quot; views inside the render function for you. Therefore you won&amp;#39;t be able to define custom attributes on theses views, are they will be originals Baguette CompositeView objects.&lt;/em&gt;&lt;/p&gt;
+<p><em>If you use the second option, Baguette will create "anonymous" views inside the render function for you. Therefore you won't be able to define custom attributes on theses views, are they will be originals Baguette CompositeView objects.</em></p>
 
-&lt;p&gt;&lt;strong&gt;Creating a Collection View using a parameter object&lt;/strong&gt;&lt;/p&gt;
+<p><strong>Creating a Collection View using a parameter object</strong></p>
 
-&lt;pre lang="javascript"&gt;&lt;code&gt;var GarageView = Backbone.Baguette.CompositeView.extend({
-  tagName:&amp;quot;ul&amp;quot;,
-  tpl:&amp;quot;I have a {{brand}} {{name}} in my garage&amp;quot;,
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">tagName</span><span class="o">:</span><span class="s2">"ul"</span><span class="p">,</span>
+  <span class="nx">tpl</span><span class="o">:</span><span class="s2">"I have a {{brand}} {{name}} in my garage"</span><span class="p">,</span>
 
-  modelView:{
-   tagName:&amp;quot;li&amp;quot;
-  }  
+  <span class="nx">modelView</span><span class="o">:</span><span class="p">{</span>
+   <span class="nx">tagName</span><span class="o">:</span><span class="s2">"li"</span>
+  <span class="p">}</span>  
 
-});
+<span class="p">});</span>
 
-var myGarageView = new GarageView({collection:myGarage});
-// Render the view =&amp;gt; all the subsequent model views are created!
-myGarageView.render();
-&lt;/code&gt;&lt;/pre&gt;
+<span class="kd">var</span> <span class="nx">myGarageView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GarageView</span><span class="p">({</span><span class="nx">collection</span><span class="o">:</span><span class="nx">myGarage</span><span class="p">});</span>
+<span class="c1">// Render the view =&gt; all the subsequent model views are created!</span>
+<span class="nx">myGarageView</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+</pre></div>
 
-&lt;p&gt;&lt;strong&gt;Creating a Collection View using a View definition&lt;/strong&gt;&lt;/p&gt;
+<p><strong>Creating a Collection View using a View definition</strong></p>
 
-&lt;p&gt;This will achieve the same thing as above, but I can create a custom view to define events and so. This is the recommended approach when Views are more complex. If your views are only used to &amp;quot;display&amp;quot; data, the above option may be preffered.&lt;/p&gt;
+<p>This will achieve the same thing as above, but I can create a custom view to define events and so. This is the recommended approach when Views are more complex. If your views are only used to "display" data, the above option may be preffered.</p>
 
-&lt;pre lang="javascript"&gt;&lt;code&gt;var CarView = Backbone.Baguette.CompositeView.extend({
-   tpl:&amp;quot;I have a {{brand}} {{name}} in my garage&amp;quot;,
-   events:{
-     &amp;quot;click&amp;quot;:&amp;quot;onClick&amp;quot;
-   },
-   onClick:function() {
-    console.log(this.model.toJSON());
-   }
-});
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">CarView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+   <span class="nx">tpl</span><span class="o">:</span><span class="s2">"I have a {{brand}} {{name}} in my garage"</span><span class="p">,</span>
+   <span class="nx">events</span><span class="o">:</span><span class="p">{</span>
+     <span class="s2">"click"</span><span class="o">:</span><span class="s2">"onClick"</span>
+   <span class="p">},</span>
+   <span class="nx">onClick</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">());</span>
+   <span class="p">}</span>
+<span class="p">});</span>
 
-var GarageView = Backbone.Baguette.CompositeView.extend({
-  tagName:&amp;quot;ul&amp;quot;,
-  tpl:&amp;quot;I have a {{brand}} {{name}} in my garage&amp;quot;,
-  modelView:CarView
+<span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">tagName</span><span class="o">:</span><span class="s2">"ul"</span><span class="p">,</span>
+  <span class="nx">tpl</span><span class="o">:</span><span class="s2">"I have a {{brand}} {{name}} in my garage"</span><span class="p">,</span>
+  <span class="nx">modelView</span><span class="o">:</span><span class="nx">CarView</span>
 
-});
-var myGarageView = new GarageView({collection:myGarage});
-// Render the view =&amp;gt; all the subsequent model views are created!
-myGarageView.render();
-&lt;/code&gt;&lt;/pre&gt;
+<span class="p">});</span>
+<span class="kd">var</span> <span class="nx">myGarageView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GarageView</span><span class="p">({</span><span class="nx">collection</span><span class="o">:</span><span class="nx">myGarage</span><span class="p">});</span>
+<span class="c1">// Render the view =&gt; all the subsequent model views are created!</span>
+<span class="nx">myGarageView</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+</pre></div>
 
-&lt;p&gt;&lt;em&gt;Your model views are passed all the options you gave to your GarageView instance; except the options related to the DOM such as tagName, etc...&lt;/em&gt;&lt;/p&gt;
+<p><em>Your model views are passed all the options you gave to your GarageView instance; except the options related to the DOM such as tagName, etc...</em></p>
 
-&lt;p&gt;The baguette&amp;#39;s components are availables under the &lt;strong&gt;Backbone.Baguette&lt;/strong&gt; namespace;&lt;/p&gt;
+<p>The baguette's components are availables under the <strong>Backbone.Baguette</strong> namespace;</p>
 
-&lt;h1&gt;CompositeView&lt;/h1&gt;
+<h1>CompositeView</h1>
 
-&lt;p&gt;A CompositeView is a view that is a kind of hybrid view able to render a collection or a model following a &lt;strong&gt;template&lt;/strong&gt; with a very few number of arguments. It avoids the redundant templating and collection looping code and allows us to write less code.&lt;/p&gt;
+<p>A CompositeView is a view that is a kind of hybrid view able to render a collection or a model following a <strong>template</strong> with a very few number of arguments. It avoids the redundant templating and collection looping code and allows us to write less code.</p>
 
-&lt;p&gt;Just like Backbone Views, you can (and you must!) inherit from a CompositeView to be able to use all its power.&lt;/p&gt;
+<p>Just like Backbone Views, you can (and you must!) inherit from a CompositeView to be able to use all its power.</p>
 
-&lt;pre lang="javascript"&gt;&lt;code&gt;var MyViewClass = Backbone.Baguette.CompositeView.extend({
-   // properties goes here
-});
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">MyViewClass</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+   <span class="c1">// properties goes here</span>
+<span class="p">});</span>
 
-// Classic instantiation of the view
-var myView = new MyViewClass();
+<span class="c1">// Classic instantiation of the view</span>
+<span class="kd">var</span> <span class="nx">myView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyViewClass</span><span class="p">();</span>
 
-&lt;/code&gt;&lt;/pre&gt;
+</pre></div>
 
-&lt;h1&gt;Global Configuration&lt;/h1&gt;</p>
+<h1>Global Configuration</h1>
       </section>
 
       <footer>
