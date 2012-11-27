@@ -107,28 +107,7 @@
 
 <p>To achieve this you can define the <strong>modelView</strong> parameter which is either a Backbone.View (or a Baguette CompositeView obviously) definition (not an instance!) or either a parameter object which can contain the traditional Backbone Views parameters to create an el, such as <strong>tagName</strong>, <strong>className</strong>, etc...</p>
 
-<p><em>If you use the second option, Baguette will create "anonymous" views inside the render function for you. Therefore you won't be able to define custom attributes on theses views, are they will be originals Baguette CompositeView objects.</em></p>
-
-<p><strong>Creating a Collection View using a parameter object</strong></p>
-
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-  <span class="nx">tagName</span><span class="o">:</span><span class="s2">"ul"</span><span class="p">,</span>
-  <span class="nx">tpl</span><span class="o">:</span><span class="s2">"I have a {{brand}} {{name}} in my garage"</span><span class="p">,</span>
-
-  <span class="nx">modelView</span><span class="o">:</span><span class="p">{</span>
-   <span class="nx">tagName</span><span class="o">:</span><span class="s2">"li"</span>
-  <span class="p">}</span>  
-
-<span class="p">});</span>
-
-<span class="kd">var</span> <span class="nx">myGarageView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GarageView</span><span class="p">({</span><span class="nx">collection</span><span class="o">:</span><span class="nx">myGarage</span><span class="p">});</span>
-<span class="c1">// Render the view =&gt; all the subsequent model views are created!</span>
-<span class="nx">myGarageView</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
-</pre></div>
-
 <p><strong>Creating a Collection View using a View definition</strong></p>
-
-<p>This will achieve the same thing as above, but I can create a custom view to define events and so. This is the recommended approach when Views are more complex. If your views are only used to "display" data, the above option may be preffered.</p>
 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">CarView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
    <span class="nx">tpl</span><span class="o">:</span><span class="s2">"I have a {{brand}} {{name}} in my garage"</span><span class="p">,</span>
@@ -142,20 +121,65 @@
 
 <span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">tagName</span><span class="o">:</span><span class="s2">"ul"</span><span class="p">,</span>
-  <span class="nx">tpl</span><span class="o">:</span><span class="s2">"I have a {{brand}} {{name}} in my garage"</span><span class="p">,</span>
   <span class="nx">modelView</span><span class="o">:</span><span class="nx">CarView</span>
-
 <span class="p">});</span>
+
 <span class="kd">var</span> <span class="nx">myGarageView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GarageView</span><span class="p">({</span><span class="nx">collection</span><span class="o">:</span><span class="nx">myGarage</span><span class="p">});</span>
 <span class="c1">// Render the view =&gt; all the subsequent model views are created!</span>
 <span class="nx">myGarageView</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
 </pre></div>
 
-<p><em>Your model views are passed all the options you gave to your GarageView instance; except the options related to the DOM such as tagName, etc...</em></p>
+<p><em>Your CarViews are passed all the options you gave to your GarageView instance; except obviously the options related to the DOM such as tagName, className, etc...</em></p>
 
-<p>The baguette's components are availables under the <strong>Backbone.Baguette</strong> namespace;</p>
+<p><strong>Creating a Collection View using a parameter object</strong></p>
 
-<h1>CompositeView</h1>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">tagName</span><span class="o">:</span><span class="s2">"ul"</span><span class="p">,</span>
+  <span class="nx">modelView</span><span class="o">:</span><span class="p">{</span>
+   <span class="nx">tagName</span><span class="o">:</span><span class="s2">"li"</span><span class="p">,</span>
+   <span class="nx">tpl</span><span class="o">:</span><span class="s2">"I have a {{brand}} {{name}} in my garage"</span>
+  <span class="p">}</span>  
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">myGarageView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GarageView</span><span class="p">({</span><span class="nx">collection</span><span class="o">:</span><span class="nx">myGarage</span><span class="p">});</span>
+<span class="c1">// Render the view =&gt; all the subsequent model views are created!</span>
+<span class="nx">myGarageView</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+</pre></div>
+
+<p><em>If you use a parameter object, Baguette will create "anonymous" views inside the render function for you. Therefore you won't be able to define custom attributes -like events or so- on these views, are they will be originals Baguette CompositeView objects.</em></p>
+
+<h6>Create generic loaders for all your models/collections</h6>
+
+<p>This is not really a Baguette component, but actually Baguette in its source code is patching the <strong>Backbone.sync</strong> method to add a custom "syncing" event when an AJAX call is made. So, for instance, each time you want to fetch a model or a collection, the concerned object will emit the "syncing" event that you will be able to observe, just like the sync/change/reset events. You can then make a generic loader that will work everywhere on any model in your application :</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Loader</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">tagName</span><span class="o">:</span><span class="s1">'img'</span><span class="p">,</span>
+  <span class="nx">className</span><span class="o">:</span><span class="s1">'hidden'</span><span class="p">,</span>
+  <span class="nx">attributes</span><span class="o">:</span><span class="p">{</span>
+   <span class="s1">'src'</span><span class="o">:</span><span class="s1">'loader.gif'</span>
+  <span class="p">},</span>
+  <span class="nx">initialize</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'syncing'</span><span class="p">,</span><span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">show</span><span class="p">,</span><span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">);</span>
+   <span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'change'</span><span class="p">,</span><span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">hide</span><span class="p">,</span><span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">customLoader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Loader</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">toyota</span><span class="p">});</span>
+<span class="nx">customLoader</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="s1">'body'</span><span class="p">);</span>
+<span class="nx">toyota</span><span class="p">.</span><span class="nx">fetch</span><span class="p">();</span> <span class="c1">// Loader is displayed, and will hide when call is over.</span>
+</pre></div>
+
+<p>If you are <strong>already overriding</strong> Backbone.sync you can style call the custom Baguette implementation by using the Backbone.Baguette.sync reference</p>
+
+<div class="highlight"><pre><span class="nx">Backbone</span><span class="p">.</span><span class="nx">sync</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span><span class="nx">model</span><span class="p">,</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// Doing my custom stuff here </span>
+
+  <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">sync</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span><span class="nx">model</span><span class="p">,</span><span class="nx">options</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+<h1>Baguette Components</h1>
 
 <p>A CompositeView is a view that is a kind of hybrid view able to render a collection or a model following a <strong>template</strong> with a very few number of arguments. It avoids the redundant templating and collection looping code and allows us to write less code.</p>
 
