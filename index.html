@@ -249,7 +249,7 @@
 
 <p><strong>I don't want my Composite Views to auto-bind themselves!</strong></p>
 
-<p>Well then you can right now exit this page. But seriously, you can just add the <strong>noBind</strong> attribute to a ModelView and a CollectionView and set it to <strong>true</strong>; either by defining it in your Class definition, either by passing it as an option when you instantiate your CompositeView.</p>
+<p>Well then you can right now exit this page. But seriously, you can just add the <strong>noBind</strong> attribute to a ModelView and a CollectionView and set it to <strong>true</strong>; either by defining it in your Class definition, either by passing it as an option when you instantiate your View.</p>
 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">NoBindView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">ModelView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
    <span class="nx">noBind</span><span class="o">:</span><span class="kc">true</span>
@@ -280,7 +280,7 @@
 <span class="nx">toyota</span><span class="p">.</span><span class="nx">fetch</span><span class="p">();</span> <span class="c1">// Loader is displayed, and will hide when call is over.</span>
 </pre></div>
 
-<p>If you are <strong>already overriding</strong> Backbone.sync you can style call the custom Baguette implementation by using the Backbone.Baguette.sync reference</p>
+<p>If you are <strong>already overriding</strong> Backbone.sync you can still call the custom Baguette implementation by using the Backbone.Baguette.sync reference</p>
 
 <div class="highlight"><pre><span class="nx">Backbone</span><span class="p">.</span><span class="nx">sync</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">method</span><span class="p">,</span><span class="nx">model</span><span class="p">,</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
 
@@ -292,13 +292,13 @@
 
 <h6>Avoid memory leaks and ghosts views</h6>
 
-<p><a href="http://addyosmani.github.com/backbone-fundamentals/#whats-the-best-way-to-combine-or-append-views-to-each-other">Courtesy of Addy Osmani</a></p>
+<p><a href="http://addyosmani.github.com/backbone-fundamentals/#how-do-you-cleanly-dispose-views-to-avoid-memory-leaks">Courtesy of Addy Osmani</a></p>
 
 <p>Basically, when you remove a view from the DOM (using the .remove() native Backbone method), the jQuery events are removed by jQuery itself. But, if you binded your views to a model or a collection, these bindings still exist, and thus, the View cannot be garbage collected as it still have "connection" with other objects.</p>
 
 <p>To avoid this, all the Baguette components are extending from a base component : <strong>Backbone.Baguette.BaseView</strong></p>
 
-<p>BaseView provides the <strong>bindTo</strong> and <strong>destroy</strong> methods which are used to cache our bindings (to remove them later) and properly destroy the view. So if you don't want to use some "high-level" baguette components such as CollectionView or so, you can extend from BaseView instead of extending from Backbone.View. The only thing is that you have to remember is <strong>to use this.bindTo instead of this.model.on(..)</strong></p>
+<p>BaseView provides the <strong>bindTo</strong> and <strong>destroy</strong> methods which are used to cache our bindings (in order to remove them later) and properly destroy the view. So if you don't want to use some "high-level" baguette components such as CollectionView or so, you can extend from BaseView instead of extending from Backbone.View. The only thing is that you have to remember is <strong>to use this.bindTo instead of this.model.on(..)</strong></p>
 
 <div class="highlight"><pre>
 <span class="kd">var</span> <span class="nx">BasicView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">BaseView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
@@ -423,16 +423,13 @@
 
 <h1>Baguette Components</h1>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">MyViewClass</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-   <span class="c1">// properties goes here</span>
-<span class="p">});</span>
+<p><strong>Backbone.Baguette.BaseView</strong>
+<strong>Backbone.Baguette.ModelView</strong>
+<strong>Backbone.Baguette.CollectionView</strong>
+<strong>Backbone.Baguette.CompositeModelView</strong></p>
 
-<span class="c1">// Classic instantiation of the view</span>
-<span class="kd">var</span> <span class="nx">myView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MyViewClass</span><span class="p">();</span>
-
-</pre></div>
-
-<h1>Global Configuration</h1>
+<pre><code>
+</code></pre>
       </section>
 
       <footer>
