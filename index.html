@@ -362,7 +362,7 @@
   <span class="nx">tpl</span><span class="o">:</span><span class="s1">'&lt;p&gt;{{brand}} - {{name}}&lt;/p&gt;&lt;button class="info"&gt;&lt;/button&gt;'</span><span class="p">,</span>
   <span class="nx">nestedViews</span><span class="o">:</span><span class="p">{</span>
     <span class="s2">".info"</span><span class="o">:</span><span class="p">{</span>
-        <span class="kr">class</span><span class="o">:</span><span class="nx">SelectButton</span><span class="p">,</span>
+        <span class="nx">view</span><span class="o">:</span><span class="nx">SelectButton</span><span class="p">,</span>
         <span class="nx">setElement</span><span class="o">:</span><span class="kc">false</span> <span class="c1">// Will append the View INSIDE the selector instead of "replacing" it</span>
      <span class="p">}</span>
   <span class="p">}</span>
@@ -392,12 +392,12 @@
        <span class="nx">tpl</span><span class="o">:</span><span class="s2">"&lt;p&gt;{{name}}&lt;/p&gt;&lt;p class='location'&gt;&lt;/p&gt;&lt;p class='cars'&gt;&lt;/p&gt;"</span><span class="p">,</span>
         <span class="nx">nestedViews</span><span class="o">:</span><span class="p">{</span>
             <span class="s1">'.cars'</span><span class="o">:</span><span class="p">{</span>
-                <span class="kr">class</span><span class="o">:</span><span class="nx">GarageView</span><span class="p">,</span> <span class="c1">// reusing our CollectionView we defined before</span>
+                <span class="nx">view</span><span class="o">:</span><span class="nx">GarageView</span><span class="p">,</span> <span class="c1">// reusing our CollectionView we defined before</span>
                 <span class="nx">setElement</span><span class="o">:</span><span class="kc">false</span><span class="p">,</span> <span class="c1">// will append INSIDE the container</span>
                 <span class="nx">collectionAttribute</span><span class="o">:</span><span class="s1">'cars'</span>
             <span class="p">},</span>
             <span class="s1">'.location'</span><span class="o">:</span><span class="p">{</span>
-                <span class="kr">class</span><span class="o">:</span><span class="nx">locationView</span><span class="p">,</span>
+                <span class="nx">view</span><span class="o">:</span><span class="nx">locationView</span><span class="p">,</span>
                 <span class="nx">modelAttribute</span><span class="o">:</span><span class="s1">'location'</span>
             <span class="p">}</span>
         <span class="p">}</span>
