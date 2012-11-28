@@ -421,15 +421,12 @@
 
 <p>You can specify that a nested view is deeply linked to one of our sub-models or sub-collections. You just have to define the collectionAttribute or the modelAttribute and assign it to the string value of the concerned model field. Magic!</p>
 
-<h1>Baguette Components</h1>
+<p>Now let's merge this up with what we saw earlier : auto - binding. Well, if my location object change or my collection reset, the inner views will be repainted, but not the whole view.</p>
 
-<p><strong>Backbone.Baguette.BaseView</strong>
-<strong>Backbone.Baguette.ModelView</strong>
-<strong>Backbone.Baguette.CollectionView</strong>
-<strong>Backbone.Baguette.CompositeModelView</strong></p>
-
-<pre><code>
-</code></pre>
+<div class="highlight"><pre><span class="nx">myGarage</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span><span class="s2">"R5"</span><span class="p">,</span><span class="nx">brand</span><span class="o">:</span><span class="s2">"Renault"</span><span class="p">})</span>
+<span class="c1">// My inner view is refreshed and the new car is added! </span>
+<span class="c1">// But the whole CompositeView is not repainted</span>
+</pre></div>
       </section>
 
       <footer>
