@@ -49,6 +49,18 @@
         <h1>Backbone Baguette</h1>
 
 <p>Nothing better than concrete examples to understand how you can baguettize your Backbone development.</p>
+<p>Backbone Baguette can help you achieve the following things :
+  <ul>
+    <li><a href="#modelView">Render a Model View</a></li>
+    <li><a href="#renderCollection">Render a Collection easily</a></li>
+    <li><a href="#autoBinding">Auto-bind your Views to your Models & Collections</a></li>
+    <li><a href="#genericLoaders">Create generic AJAX loaders views</a></li>
+    <li><a href="#memoryLeaks">Avoid memory leaks and clean properly your Views</a></li>
+    <li><a href="#nestedViews">Manage your nested views</a></li>
+    <li><a href="#deepDive">Manage your nested views accordingly to nested models and/or collections</a></li>
+  </ul>
+  
+</p>
 
 <h6>Examples data</h6>
 
@@ -69,7 +81,7 @@
 
 </pre></div>
 
-<h6>Render a Model View</h6>
+<h6 id="modelView">Render a Model View</h6>
 
 <p>When we're writing in Backbone, we quickly notice that we're writing a lot of similar views which are actually just using a template engine (such as Mustache or Handlebars) to render a JSON converted model. Instead of re-writing all the time the <em>template(this.model.toJSON())..</em> code you can baguettize it to achieve this, by using the <strong>Backbone.Baguette.ModelView</strong> component.</p>
 
@@ -120,7 +132,7 @@
 <span class="p">});</span>
 </pre></div>
 
-<h6>Rendering a collection</h6>
+<h6 id="renderCollection">Rendering a collection</h6>
 
 <p>You can use the <strong>Backbone.Baguette.CollectionView</strong> to avoid writing the redundant <em>this.collection.each(....)</em> code.</p>
 
@@ -185,7 +197,7 @@
 <span class="p">})</span>
 </pre></div>
 
-<h6>Auto bind your view</h6>
+<h6 id="autoBinding">Auto bind your view</h6>
 
 <p>Baguette automatically binds your View to the given model (or the given collection). That is, you don't need to rewrite the this.model.on(...) redundant code. We will here reuse the previous CarView.</p>
 
@@ -259,7 +271,7 @@
 <span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CollectionView</span><span class="p">({</span><span class="nx">noBind</span><span class="o">:</span><span class="kc">true</span><span class="p">})</span>
 </pre></div>
 
-<h6>Create generic loaders for all your models/collections</h6>
+<h6 id="genericLoaders">Create generic loaders for all your models/collections</h6>
 
 <p>This is not really a Baguette component, but actually Baguette in its source code is patching the <strong>Backbone.sync</strong> method to add a custom "syncing" event when an AJAX call is made. So, for instance, each time you want to fetch a model or a collection, the concerned object will emit the "syncing" event that you will be able to observe, just like the sync/change/reset events. You can then make a generic loader that will work everywhere on any model in your application :</p>
 
@@ -290,7 +302,7 @@
 <span class="p">}</span>
 </pre></div>
 
-<h6>Avoid memory leaks and ghosts views</h6>
+<h6 id="memoryLeaks">Avoid memory leaks and ghosts views</h6>
 
 <p><a href="http://addyosmani.github.com/backbone-fundamentals/#how-do-you-cleanly-dispose-views-to-avoid-memory-leaks">Courtesy of Addy Osmani</a></p>
 
@@ -316,7 +328,7 @@
 
 <p>Please note that the <strong>CollectionView</strong> and the <strong>CompositeModelView</strong> are automatically calling <strong>destroy</strong> on their child views, to guarantee that every inner views is properly cleaned.</p>
 
-<h6>Rendering Nested Views</h6>
+<h6 id="nestedViews">Rendering Nested Views</h6>
 
 <p>Baguette offers you the ability to manage your nested views in an elegant and simple way. We often need to embed views in a view in order to separate tasks, or for other many reasons. Let's say we want to build a view for a Car and insert to this view a Button that will react to a click. We don't want to bind the click event on the Car view since we can imagine the button View can be reused elsewhre on the application. </p>
 
@@ -378,7 +390,7 @@
 
 </pre></div>
 
-<h6>Deeper dive in Nested Views : mixing it up</h6>
+<h6 id="deepDive">Deep dive in Nested Views : mixing it up</h6>
 
 <p>We saw how to use CompositeModelView to manage our nested views. It happens that sometimes, our models are a little bit more complex than plain raw JSON object (like our <strong>garageModel</strong> we defined in the examples). Well, CompositeModelView can handle that pretty well as you can see :</p>
 
