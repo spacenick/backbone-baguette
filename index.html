@@ -1,51 +1,36 @@
 <!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640" />
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Backbone-baguette : Freshly toasted backbone library. Provides tools and helpers for a super quick backbone development in smalls to mediums applications." />
 
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
-    <title>Backbone-baguette by spacenick</title>
+    <title>Backbone-baguette</title>
   </head>
 
   <body>
-    <a id="forkme_banner" href="https://github.com/spacenick/backbone-baguette">View on GitHub</a>
-    <div class="shell">
 
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>Backbone-baguette</h1>
-            <h2>Freshly toasted backbone library. Provides tools and helpers for a super quick backbone development in smalls to mediums applications.</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/spacenick/backbone-baguette">View on GitHub</a>
 
-      <section id="downloads">
-        <span class="inner">
-          <a href="https://github.com/spacenick/backbone-baguette/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/spacenick/backbone-baguette/tarball/master" class="tgz"><em>download</em> .TGZ</a>
-        </span>
-      </section>
+          <h1 id="project_title">Backbone-baguette</h1>
+          <h2 id="project_tagline">Freshly toasted backbone library. Provides tools and helpers for a super quick backbone development in smalls to mediums applications.</h2>
 
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/spacenick/backbone-baguette/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/spacenick/backbone-baguette/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
-      <span class="banner-fix"></span>
-
-
-      <section id="main_content">
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>Backbone Baguette</h1>
 
 <p>Nothing better than concrete examples to understand how you can baguettize your Backbone development.</p>
@@ -62,17 +47,21 @@
 
 <span class="kd">var</span> <span class="nx">Garage</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Collection</span><span class="p">.</span><span class="nx">extend</span><span class="p">({});</span>
 <span class="kd">var</span> <span class="nx">myGarage</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Garage</span><span class="p">([</span><span class="nx">toyota</span><span class="p">,</span><span class="nx">bmw</span><span class="p">]);</span>
+
+<span class="c1">// And a more complex Model</span>
+<span class="kd">var</span> <span class="nx">garageLocation</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">({</span><span class="nx">city</span><span class="o">:</span><span class="s2">"Paris"</span><span class="p">,</span><span class="nx">gps</span><span class="o">:</span><span class="s2">"0.55 0.12"</span><span class="p">});</span>
+<span class="kd">var</span> <span class="nx">garageModel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span><span class="s2">"Peugeot"</span><span class="p">,</span><span class="nx">location</span><span class="o">:</span><span class="nx">garageLocation</span><span class="p">,</span><span class="nx">cars</span><span class="o">:</span><span class="nx">myGarage</span><span class="p">});</span>
+
 </pre></div>
 
 <h6>Render a Model View</h6>
 
-<p>When we're writing in Backbone, we quickly notice that we're writing a lot of similar views which are actually just using a template engine (such as Mustache or Handlebars) to render a JSON converted model. Instead of re-writing all the time the <em>template(this.model.toJSON())..</em> code you can baguettize it to achieve this.</p>
+<p>When we're writing in Backbone, we quickly notice that we're writing a lot of similar views which are actually just using a template engine (such as Mustache or Handlebars) to render a JSON converted model. Instead of re-writing all the time the <em>template(this.model.toJSON())..</em> code you can baguettize it to achieve this, by using the <strong>Backbone.Baguette.ModelView</strong> component.</p>
 
 <p><strong>With Backbone Baguette</strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ModelView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-  <span class="nx">tpl</span><span class="o">:</span><span class="s2">"My car is a {{brand}} {{name}}"</span><span class="p">,</span>
-  <span class="nx">tagName</span><span class="o">:</span><span class="s2">"div"</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ModelView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">ModelView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+  <span class="nx">tpl</span><span class="o">:</span><span class="s2">"My car is a {{brand}} {{name}}"</span>
 <span class="p">});</span>
 
 <span class="kd">var</span> <span class="nx">myView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ModelView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">toyota</span><span class="p">});</span>
@@ -92,12 +81,11 @@
 
 <p>You can also specify individually the templating property on each CompositeView, if you want to only edit some views and not the global Baguette templating function.</p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ModelView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ModelView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">ModelView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">tpl</span><span class="o">:</span><span class="s2">"My car is a {{brand}} {{name}}"</span><span class="p">,</span>
   <span class="nx">templating</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">tpl</span><span class="p">,</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
      <span class="k">return</span> <span class="nx">MyCustomTemplateEngine</span><span class="p">(</span><span class="nx">tpl</span><span class="p">).</span><span class="nx">CustomRenderMethod</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
   <span class="p">}</span>
-  <span class="nx">tagName</span><span class="o">:</span><span class="s2">"div"</span>
 <span class="p">});</span>
 </pre></div>
 
@@ -109,26 +97,25 @@
 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">ModelView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
 
-    <span class="nx">tagName</span><span class="o">:</span><span class="s2">"div"</span><span class="p">,</span>
     <span class="nx">render</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">templated</span> <span class="o">=</span> <span class="nx">Handlebars</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">tpl</span><span class="p">)(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">());</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="nx">templated</span><span class="p">);</span>
       <span class="k">return</span> <span class="k">this</span><span class="p">;</span>         
     <span class="p">}</span>  
-
 <span class="p">});</span>
 </pre></div>
 
 <h6>Rendering a collection</h6>
 
-<p>You can use a Composite View to <strong>render a collection</strong> and avoid to write the redundant <em>this.collection.each(....)</em> code.</p>
+<p>You can use the <strong>Backbone.Baguette.CollectionView</strong> to avoid writing the redundant <em>this.collection.each(....)</em> code.</p>
 
 <p>To achieve this you can define the <strong>modelView</strong> parameter which is either a Backbone.View (or a Baguette CompositeView obviously) definition (not an instance!) or either a parameter object which can contain the traditional Backbone Views parameters to create an el, such as <strong>tagName</strong>, <strong>className</strong>, etc...</p>
 
 <p><strong>Creating a Collection View using a View definition</strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">CarView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-   <span class="nx">tpl</span><span class="o">:</span><span class="s2">"I have a {{brand}} {{name}} in my garage"</span><span class="p">,</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">CarView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">ModelView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+   <span class="nx">tpl</span><span class="o">:</span><span class="s2">"I have a {{brand}} {{name}} in my garage"</span><span class="p">,</span> 
+   <span class="nx">tagName</span><span class="o">:</span><span class="s2">"li"</span><span class="p">,</span>
    <span class="nx">events</span><span class="o">:</span><span class="p">{</span>
      <span class="s2">"click"</span><span class="o">:</span><span class="s2">"onClick"</span>
    <span class="p">},</span>
@@ -137,7 +124,7 @@
    <span class="p">}</span>
 <span class="p">});</span>
 
-<span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+<span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CollectionView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">tagName</span><span class="o">:</span><span class="s2">"ul"</span><span class="p">,</span>
   <span class="nx">modelView</span><span class="o">:</span><span class="nx">CarView</span>
 <span class="p">});</span>
@@ -151,7 +138,7 @@
 
 <p><strong>Creating a Collection View using a parameter object</strong></p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CollectionView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
   <span class="nx">tagName</span><span class="o">:</span><span class="s2">"ul"</span><span class="p">,</span>
   <span class="nx">modelView</span><span class="o">:</span><span class="p">{</span>
    <span class="nx">tagName</span><span class="o">:</span><span class="s2">"li"</span><span class="p">,</span>
@@ -161,20 +148,21 @@
 
 <span class="kd">var</span> <span class="nx">myGarageView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GarageView</span><span class="p">({</span><span class="nx">collection</span><span class="o">:</span><span class="nx">myGarage</span><span class="p">});</span>
 <span class="c1">// Render the view =&gt; all the subsequent model views are created!</span>
-<span class="nx">myGarageView</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+<span class="nx">myGarageView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="s1">'body'</span><span class="p">);</span> <span class="c1">// Our list is appended to the DOM</span>
 </pre></div>
 
-<p><em>If you use a parameter object, Baguette will create "anonymous" views inside the render function for you. Therefore you won't be able to define custom attributes -like events or so- on these views, are they will be originals Baguette CompositeView objects.</em></p>
+<p><em>If you use a parameter object, Baguette will create "anonymous" views inside the render function for you. Therefore you won't be able to define custom attributes -like events or so- on these views, are they will be originals Baguette ModelView objects.</em></p>
 
 <p><strong>Without Backbone Baguette</strong></p>
 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">GarageView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
 
     <span class="nx">render</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">empty</span><span class="p">();</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
          <span class="kd">var</span> <span class="nx">newView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CarView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">model</span><span class="p">});</span>
-         <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">newView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">);</span>
+         <span class="nx">that</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">newView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">);</span>
       <span class="p">})</span>
       <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
     <span class="p">}</span>
@@ -212,14 +200,14 @@
 <span class="p">});</span>
 </pre></div>
 
-<p>Collections are also auto binded. When you render a whole collection, Baguette is automatically binding the subsequent Model Views to the "remove" event of the assigned model. That is you don't need to care about this even if you are writing your own ModelView and passing it to the modelView attribute.</p>
+<p>Collections are also auto binded on the add, reset &amp; remove events, and are calling the render method to repaint the collection view when these events occur.</p>
 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">myGarageView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GarageView</span><span class="p">({</span><span class="nx">collection</span><span class="o">:</span><span class="nx">myGarage</span><span class="p">});</span>
 <span class="nx">myGarageView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="s1">'body'</span><span class="p">);</span>
 
 <span class="nx">myGarage</span><span class="p">.</span><span class="nx">fetch</span><span class="p">();</span> <span class="c1">// Will auto-render the view if new models are fetched</span>
 <span class="nx">myGarage</span><span class="p">.</span><span class="nx">add</span><span class="p">({</span><span class="nx">brand</span><span class="o">:</span><span class="s2">"Peugeot"</span><span class="p">,</span><span class="nx">name</span><span class="o">:</span><span class="s2">"306"</span><span class="p">});</span> <span class="c1">// View is refreshed with new model</span>
-<span class="nx">myGarage</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">toyota</span><span class="p">);</span> <span class="c1">// View is refreshed without the new model</span>
+<span class="nx">myGarage</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">toyota</span><span class="p">);</span> <span class="c1">// View is refreshed without the toyota model</span>
 </pre></div>
 
 <p><strong>Without Backbone Baguette</strong></p>
@@ -232,10 +220,11 @@
     <span class="p">},</span>
 
     <span class="nx">render</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">empty</span><span class="p">();</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
          <span class="kd">var</span> <span class="nx">newView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CarView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">model</span><span class="p">});</span>
-         <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">newView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">);</span>
+         <span class="nx">that</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">newView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">);</span>
       <span class="p">})</span>
       <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
     <span class="p">}</span>
@@ -245,14 +234,14 @@
 
 <p><strong>I don't want my Composite Views to auto-bind themselves!</strong></p>
 
-<p>Well then you can right now exit this page. But seriously, you can just add the <strong>noBind</strong> attribute to the CompositeView and set it to <strong>true</strong>; either by defining it in your Class definition, either by passing it as an option when you instantiate your CompositeView.</p>
+<p>Well then you can right now exit this page. But seriously, you can just add the <strong>noBind</strong> attribute to a ModelView and a CollectionView and set it to <strong>true</strong>; either by defining it in your Class definition, either by passing it as an option when you instantiate your CompositeView.</p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">NoBindView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">NoBindView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">ModelView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
    <span class="nx">noBind</span><span class="o">:</span><span class="kc">true</span>
 <span class="p">});</span>
 
 <span class="c1">// Or you can just do</span>
-<span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">({</span><span class="nx">noBind</span><span class="o">:</span><span class="kc">true</span><span class="p">})</span>
+<span class="k">new</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CollectionView</span><span class="p">({</span><span class="nx">noBind</span><span class="o">:</span><span class="kc">true</span><span class="p">})</span>
 </pre></div>
 
 <h6>Create generic loaders for all your models/collections</h6>
@@ -286,6 +275,8 @@
 <span class="p">}</span>
 </pre></div>
 
+<h6>Avoid memory leaks and ghosts views</h6>
+
 <h6>Rendering Nested Views</h6>
 
 <p>Baguette offers you the ability to manage your nested views in an elegant and simple way. We often need to embed views in a view in order to separate tasks, or for other many reasons. Let's say we want to build a view for a Car and insert to this view a Button that will react to a click. We don't want to bind the click event on the Car view since we can imagine the button View can be reused elsewhre on the application. </p>
@@ -293,7 +284,7 @@
 <p>You can Baguettize it this way :</p>
 
 <div class="highlight"><pre>
-<span class="kd">var</span> <span class="nx">SelectButton</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+<span class="kd">var</span> <span class="nx">SelectButton</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">BaseView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
 
   <span class="nx">tpl</span><span class="o">:</span><span class="s1">'Info'</span><span class="p">,</span>
   <span class="nx">className</span><span class="o">:</span><span class="s1">'btn btn-primary'</span><span class="p">,</span> <span class="c1">// twitter bootstrap styling</span>
@@ -307,7 +298,7 @@
 
 <span class="p">});</span>
 
-<span class="kd">var</span> <span class="nx">CarView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+<span class="kd">var</span> <span class="nx">CarView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeModelView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
 
   <span class="nx">tpl</span><span class="o">:</span><span class="s1">'&lt;p&gt;{{brand}} - {{name}}&lt;/p&gt;&lt;button class="info"&gt;&lt;/button&gt;'</span><span class="p">,</span>
   <span class="nx">nestedViews</span><span class="o">:</span><span class="p">{</span>
@@ -327,13 +318,13 @@
 
 <p>By default Baguette is using the selector as the <strong>el</strong> for our nested View. But you can also still auto-create the <strong>el</strong> for your nestedView, and add several others options by passing a parameter object which follows this syntax :</p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">CarView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">CarView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeModelView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
 
   <span class="nx">tpl</span><span class="o">:</span><span class="s1">'&lt;p&gt;{{brand}} - {{name}}&lt;/p&gt;&lt;button class="info"&gt;&lt;/button&gt;'</span><span class="p">,</span>
   <span class="nx">nestedViews</span><span class="o">:</span><span class="p">{</span>
     <span class="s2">".info"</span><span class="o">:</span><span class="p">{</span>
         <span class="kr">class</span><span class="o">:</span><span class="nx">SelectButton</span><span class="p">,</span>
-        <span class="nx">setElement</span><span class="o">:</span><span class="kc">false</span><span class="p">,</span> <span class="c1">// Will append the View INSIDE the selector instead of "replacing" it</span>
+        <span class="nx">setElement</span><span class="o">:</span><span class="kc">false</span> <span class="c1">// Will append the View INSIDE the selector instead of "replacing" it</span>
      <span class="p">}</span>
   <span class="p">}</span>
 
@@ -350,11 +341,48 @@
 
 <h6>Deeper dive in Nested Views : mixing it up</h6>
 
+<p>We saw how to use CompositeModelView to manage our nested views. It happens that sometimes, our models are a little bit more complex than plain raw JSON object (like our <strong>garageModel</strong> we defined in the examples). Well, CompositeModelView can handle that pretty well as you can see :</p>
+
+<div class="highlight"><pre>    <span class="c1">// locationView which will be nested. Simple model view</span>
+    <span class="kd">var</span> <span class="nx">locationView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">ModelView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+        <span class="nx">tpl</span><span class="o">:</span><span class="s2">"In {{city}} at gps coord {{gps}}"</span>
+    <span class="p">})</span>
+    <span class="c1">// Our more complex layout for a garage complex object</span>
+    <span class="kd">var</span> <span class="nx">compositeView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeModelView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+       <span class="nx">tpl</span><span class="o">:</span><span class="s2">"&lt;p&gt;{{name}}&lt;/p&gt;&lt;p class='location'&gt;&lt;/p&gt;&lt;p class='cars'&gt;&lt;/p&gt;"</span><span class="p">,</span>
+        <span class="nx">nestedViews</span><span class="o">:</span><span class="p">{</span>
+            <span class="s1">'.cars'</span><span class="o">:</span><span class="p">{</span>
+                <span class="kr">class</span><span class="o">:</span><span class="nx">GarageView</span><span class="p">,</span> <span class="c1">// reusing our CollectionView we defined before</span>
+                <span class="nx">setElement</span><span class="o">:</span><span class="kc">false</span><span class="p">,</span> <span class="c1">// will append INSIDE the container</span>
+                <span class="nx">collectionAttribute</span><span class="o">:</span><span class="s1">'cars'</span>
+            <span class="p">},</span>
+            <span class="s1">'.location'</span><span class="o">:</span><span class="p">{</span>
+                <span class="kr">class</span><span class="o">:</span><span class="nx">locationView</span><span class="p">,</span>
+                <span class="nx">modelAttribute</span><span class="o">:</span><span class="s1">'location'</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="kd">var</span> <span class="nx">myCompositeView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">compositeView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">garageModel</span><span class="p">});</span>
+    <span class="nx">myCompositeView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">$el</span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="s1">'body'</span><span class="p">);</span>
+<span class="cm">/* RESULT :</span>
+<span class="cm">&lt;div&gt;</span>
+<span class="cm"> &lt;p&gt;Peugeot&lt;/p&gt;</span>
+<span class="cm">  &lt;p class="location"&gt;In Paris at gps coord 0.001&lt;/p&gt;</span>
+<span class="cm">  &lt;p class="cars"&gt;</span>
+<span class="cm">    &lt;ul&gt;</span>
+<span class="cm">     &lt;li&gt;My car is a Toyota Yaris&lt;/li&gt;</span>
+<span class="cm">     &lt;li&gt;My car is a BMW M3&lt;/li&gt;</span>
+<span class="cm">    &lt;/ul&gt;</span>
+<span class="cm">   &lt;/p&gt;</span>
+<span class="cm">&lt;/div&gt;</span>
+<span class="cm">*/</span>
+</pre></div>
+
+<p>You can specify that a nested view is deeply linked to one of our sub-models or sub-collections. You just have to define the collectionAttribute or the modelAttribute and assign it to the string value of the concerned model field. Magic!</p>
+
 <h1>Baguette Components</h1>
-
-<p>A CompositeView is a view that is a kind of hybrid view able to render a collection or a model following a <strong>template</strong> with a very few number of arguments. It avoids the redundant templating and collection looping code and allows us to write less code.</p>
-
-<p>Just like Backbone Views, you can (and you must!) inherit from a CompositeView to be able to use all its power.</p>
 
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">MyViewClass</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">CompositeView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
    <span class="c1">// properties goes here</span>
@@ -367,21 +395,17 @@
 
 <h1>Global Configuration</h1>
       </section>
+    </div>
 
-      <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>this project by <a href="https://github.com/spacenick">spacenick</a> can be found on <a href="https://github.com/spacenick/backbone-baguette">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Backbone-baguette maintained by <a href="https://github.com/spacenick">spacenick</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
-
     </div>
 
     
+
   </body>
 </html>
