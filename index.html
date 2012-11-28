@@ -306,7 +306,7 @@
 
 <p><a href="http://addyosmani.github.com/backbone-fundamentals/#how-do-you-cleanly-dispose-views-to-avoid-memory-leaks">Courtesy of Addy Osmani</a></p>
 
-<p>Basically, when you remove a view from the DOM (using the .remove() native Backbone method), the jQuery events are removed by jQuery itself. But, if you binded your views to a model or a collection, these bindings still exist, and thus, the View cannot be garbage collected as it still have "connection" with other objects.</p>
+<p>Basically, when you remove a view from the DOM (using the .remove() native Backbone method), the jQuery events are removed by jQuery itself. But, if you binded your views to a model or a collection, these bindings still exist, and thus, the View cannot be garbage collected as it still has "connection" with other objects.</p>
 
 <p>To avoid this, all the Baguette components are extending from a base component : <strong>Backbone.Baguette.BaseView</strong></p>
 
