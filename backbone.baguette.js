@@ -17,6 +17,7 @@
                 return obj.constructor == Object;
             }
         }
+        _.isPlainObject = plainObjectFunction;
     }
 
     // backbone namespace
@@ -147,6 +148,7 @@
             //
         },
         initialize:function(options) {
+            // Call ModelView initializer
             CompositeView.__super__.initialize.call(this,options);
             this._views = [];
             _.bindAll(this,'renderNestedViews');
