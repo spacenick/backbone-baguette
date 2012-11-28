@@ -1,36 +1,51 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Backbone-baguette : Freshly toasted backbone library. Provides tools and helpers for a super quick backbone development in smalls to mediums applications." />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
 
-    <title>Backbone-baguette</title>
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Backbone-baguette by spacenick</title>
   </head>
 
   <body>
+    <a id="forkme_banner" href="https://github.com/spacenick/backbone-baguette">View on GitHub</a>
+    <div class="shell">
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/spacenick/backbone-baguette">View on GitHub</a>
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Backbone-baguette</h1>
+            <h2>Freshly toasted backbone library. Provides tools and helpers for a super quick backbone development in smalls to mediums applications.</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
 
-          <h1 id="project_title">Backbone-baguette</h1>
-          <h2 id="project_tagline">Freshly toasted backbone library. Provides tools and helpers for a super quick backbone development in smalls to mediums applications.</h2>
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/spacenick/backbone-baguette/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/spacenick/backbone-baguette/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/spacenick/backbone-baguette/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/spacenick/backbone-baguette/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
         <h1>Backbone Baguette</h1>
 
 <p>Nothing better than concrete examples to understand how you can baguettize your Backbone development.</p>
@@ -277,6 +292,30 @@
 
 <h6>Avoid memory leaks and ghosts views</h6>
 
+<p><a href="http://addyosmani.github.com/backbone-fundamentals/#whats-the-best-way-to-combine-or-append-views-to-each-other">Courtesy of Addy Osmani</a></p>
+
+<p>Basically, when you remove a view from the DOM (using the .remove() native Backbone method), the jQuery events are removed by jQuery itself. But, if you binded your views to a model or a collection, these bindings still exist, and thus, the View cannot be garbage collected as it still have "connection" with other objects.</p>
+
+<p>To avoid this, all the Baguette components are extending from a base component : <strong>Backbone.Baguette.BaseView</strong></p>
+
+<p>BaseView provides the <strong>bindTo</strong> and <strong>destroy</strong> methods which are used to cache our bindings (to remove them later) and properly destroy the view. So if you don't want to use some "high-level" baguette components such as CollectionView or so, you can extend from BaseView instead of extending from Backbone.View. The only thing is that you have to remember is <strong>to use this.bindTo instead of this.model.on(..)</strong></p>
+
+<div class="highlight"><pre>
+<span class="kd">var</span> <span class="nx">BasicView</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Baguette</span><span class="p">.</span><span class="nx">BaseView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+   <span class="nx">initialize</span><span class="o">:</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">bindTo</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">model</span><span class="p">,</span><span class="s2">"event_name"</span><span class="p">,</span><span class="k">this</span><span class="p">.</span><span class="nx">callback</span><span class="p">,</span><span class="k">this</span><span class="p">);</span>
+      <span class="c1">// Edited addy's function to add context</span>
+   <span class="p">}</span>
+
+<span class="p">});</span>
+<span class="kd">var</span> <span class="nx">basicView</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BasicView</span><span class="p">({</span><span class="nx">model</span><span class="o">:</span><span class="nx">toyota</span><span class="p">})</span>
+<span class="nx">basicView</span><span class="p">.</span><span class="nx">destroy</span><span class="p">();</span> <span class="c1">// All the assigned events are properly cleaned + view is removed from the DOM</span>
+
+</pre></div>
+
+<p>Please note that the <strong>CollectionView</strong> and the <strong>CompositeModelView</strong> are automatically calling <strong>destroy</strong> on their child views, to guarantee that every inner views is properly cleaned.</p>
+
 <h6>Rendering Nested Views</h6>
 
 <p>Baguette offers you the ability to manage your nested views in an elegant and simple way. We often need to embed views in a view in order to separate tasks, or for other many reasons. Let's say we want to build a view for a Car and insert to this view a Button that will react to a click. We don't want to bind the click event on the Car view since we can imagine the button View can be reused elsewhre on the application. </p>
@@ -395,17 +434,21 @@
 
 <h1>Global Configuration</h1>
       </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Backbone-baguette maintained by <a href="https://github.com/spacenick">spacenick</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/spacenick">spacenick</a> can be found on <a href="https://github.com/spacenick/backbone-baguette">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
       </footer>
+
     </div>
 
     
-
   </body>
 </html>
