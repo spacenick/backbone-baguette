@@ -5,3 +5,5 @@ As a Backbone fanatic, I quickly noticed that I was running into the rewriting o
 This project is highly inspired by Aura and Backbone Marionnette, but is aiming at smaller projects, which don't necessarily require all the great features provided by this kind of on-top frameworks.
 
 [DOCS and EXAMPLES](http://spacenick.github.com/backbone-baguette)
+
+PS : tests coming soon! This is a very alpha library, so use it at your own risks!
