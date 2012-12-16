@@ -1,11 +1,22 @@
-// Backbone Baguette v 0.0.2
-// Updated 28/11/12
+// Backbone Baguette v 0.0.3
+// Updated 12/14/12
 // Wrote by Nicolas KERMARC
 // @spacenick
-// License info coming soon
+// License info coming soon. Seriously do whatever you want with it
 // DOCS here http://spacenick.github.com/backbone-baguette
 
-(function(){
+(function(baguette){
+
+    // RequireJS support.
+    if (typeof define == "function") {
+        define(baguette);
+    }
+    // Classical browser env
+    else {
+        baguette(Backbone,_);
+    }
+
+})(function(Backbone,_){
 
     if (typeof Backbone == 'undefined' || typeof _ == 'undefined') throw new Error('Backbone & underscore required!');
 
@@ -16,7 +27,7 @@
             else {
                 return obj.constructor == Object;
             }
-        }
+        };
         _.isPlainObject = plainObjectFunction;
     }
 
@@ -35,11 +46,11 @@
     Backbone.Baguette.templating = TemplatingFunction;
 
     // List of our attributes
-    var BaguetteCompositeViewAttributes = ["noBind","tpl","modelView","templating","nestedViews"];
+    var BaguetteCustomAttributes = ["noBind","tpl","modelView","templating","nestedViews","loaderView","loader"];
 
     // Simple helper functions that will override the default prototype attribute of CompositeView if they are passed as options
     var optionsToObject = function(object) {
-        _.each(BaguetteCompositeViewAttributes,function(attr){
+        _.each(BaguetteCustomAttributes,function(attr){
             if (!_.isUndefined(object.options[attr])) {
                 object[attr] = object.options[attr];
             }
@@ -54,76 +65,117 @@
         delete options.id;
         delete options.className;
         delete options.attributes;
-    }
+    };
 
-    // ----- BASE BAGUETTE VIEW ------
-    // Contains common parameters + clean binding & destroy method
-    // All our Views are inheriting from this
-    // -------------------------------
+    // TO be Removed
+    Backbone.Baguette.BaseView = Backbone.View;
 
-    var BaseView = Backbone.View.extend({
-
-        templating:Backbone.Baguette.templating,
-        bindings:[],
-
+    // ----------------------------------------------------------------//
+    // --- -----------GENERIC LOADER VIEW---------------------------- //
+    //  Binded by default on a model or collection (model is prioritary)//
+    // -------------------------------------------------------------- //
+    var LoaderView = Backbone.View.extend({
+        className:'loader',
         initialize:function(options) {
-            this.bindings = [];
-            _.bindAll(this,'bindTo','unbindFromAll','clean','destroy');
-        },
-        // 100% inspired from Addy Osmani ghost view solution. I just added a context variable, in order to
-        // give sometimes a context like this.$el (to directly call this.$el.hide for instance)
-        bindTo: function (model, ev, callback, context) {
-            model.bind(ev, callback, context);
-            this.bindings.push({ model: model, ev: ev, callback: callback, context:context });
-        },
-        // unbind all our views events in order to be collected by GC
-        unbindFromAll: function () {
+            var toListenObj;
+            if (!_.isUndefined(this.model)) toListenObj = this.model;
+            else if (!_.isUndefined(this.collection)) toListenObj = this.collection;
+            // Export this to be grabbed by other views in order to know on what is binded the loader
+            this.toListenObj = toListenObj;
+            // Listen baby!
+            this.listenTo(toListenObj,'request',_.bind(this.$el.show,this.$el));
+            this.listenTo(toListenObj,'sync',_.bind(this.$el.hide,this.$el));
 
-            _.each(this.bindings, function (binding) {
-                binding.model.unbind(binding.ev, binding.callback,binding.context);
-            });
-
-            this.bindings = [];
-        },
-        // Empty the $el (not removing it!)
-        clean:function() {
-            this.$el.empty();
-        },
-        // Clean removing of the view to avoid memory leaks. Based on http://addyosmani.github.com/backbone-fundamentals/#whats-the-best-way-to-combine-or-append-views-to-each-other by Addy Osmani
-        destroy:function() {
-            this.clean();
-            this.unbindFromAll();
-            this.remove();
-
+            // Hide by default obv
+            this.$el.hide();
+            return this;
         }
-
-
     });
 
-    Backbone.Baguette.BaseView = BaseView;
+    // export
+    Backbone.Baguette.LoaderView = LoaderView;
+
+    // ----------------------------------------------------------------//
+    // --- -----------LOADABLE VIEW----------------------------------- //
+    //  Inherited view to handle loader Views !                       //
+    // -------------------------------------------------------------- //   
+
+    var LoadableView = Backbone.View.extend({
+        loader:false,
+        initialize:function(options) {
+            // Loader! b00m magic
+            if (this.loader) {
+                var loaderView;
+                // We can also override only on a view the loaderView for custom purposes
+                if (!_.isUndefined(this.loaderView)) loaderView = this.loaderView;
+                else loaderView = Backbone.Baguette.LoaderView;
+                // Cehck what kind of son is extending us : CollectionView ModelView or what?
+                if (!_.isUndefined(this.model)) instOpts = {model:this.model,ref:this.model};
+                else if (!_.isUndefined(this.collection)) instOpts = {collection:this.collection,ref:this.collection};
+                // Instantiate the loader, keep a reference to loaderView and append to our $el
+                this.loaderViewInstance = new loaderView(instOpts);
+                this.loaderViewInstance.render().$el.appendTo(this.$el);
+                // If we have a loader, when we do request we need to clean the $el in order for him to properly show up
+                // The loader is not cleaned when calling clean
+                this.listenTo(instOpts.ref,'request',this.clean);
+            }
+        },
+        remove:function() {
+            // Properly clean remove loader if there is one
+            if (!_.isUndefined(this.loaderViewInstance) && !_.isUndefined(this.loaderViewInstance.remove)) {
+               this.loaderViewInstance.remove(); 
+            }
+            Backbone.View.prototype.remove.call(this);
+            return this;
+        }
+    });
+
+    // export
+    Backbone.Baguette.LoadableView = LoadableView;
+
 
     // ----------------------------------------------------------------//
     // --- -----------MODEL VIEW ------------------------------------ //
     // Render a model with a simple tpl using the templating function //
     // -------------------------------------------------------------- //
 
-    var ModelView = BaseView.extend({
+    var ModelView = LoadableView.extend({
         tpl:"",
         noBind:false,
+        templating:Backbone.Baguette.templating,
+        loader:false,
         initialize:function(options) {
 
-            ModelView.__super__.initialize.call(this,options);
             // Options to class attributes overriding
             optionsToObject(this);
-            // We obv. need a model.
-            if (_.isUndefined(this.model)) throw new Error('ModelView needs a model!');
-            // Bind it except if we specifically said NO
-            if (!this.noBind) this.bindTo(this.model,'change',this.render,this);
+            ModelView.__super__.initialize.call(this,options);
+            // We assume that most of the time a model will be given
+            this.noModel=false;
+            // No? Let's act as a raw static view then.
+            if (_.isUndefined(this.model)) this.noModel=true;
+            // Bind it except if we specifically said NO or if we use a generic empty model
+            if (!this.noBind && !this.noModel) this.listenTo(this.model,'change',this.render);
+            _.bindAll(this,'clean');
         },
         render:function() {
+
             // Empty our $el and render the view.
-            this.$el.empty().html(this.templating(this.tpl,this.model.toJSON()));
+            this.clean();
+
+            if (!this.noModel) {
+
+                // Check if we passed a compiledTemplate function (to use for instance Handlebars precompiled template directly)
+                if (!_.isUndefined(this.compiledTemplate)) this.$el.html(this.compiledTemplate(this.model.toJSON()));
+                // Otherwise compile template on the fly!
+                else this.$el.html(this.templating(this.tpl,this.model.toJSON()));
+            }
+            // No templating needed, just set raw template to $el....
+            else this.clean().$el.html(this.tpl);
             // Let's get chained! Oh yeah.
+            return this;
+        },
+        clean:function() {
+            this.$el.empty();
             return this;
         }
 
@@ -148,10 +200,10 @@
             //
         },
         initialize:function(options) {
-            // Call ModelView initializer
+
             CompositeView.__super__.initialize.call(this,options);
             this._views = [];
-            _.bindAll(this,'renderNestedViews');
+            _.bindAll(this);
         },
         // Method to render all the nested views
         renderNestedViews:function() {
@@ -163,9 +215,14 @@
             var thisOptions = _.clone(this.options);
             removeDomOptions(thisOptions);
 
-
+            
             // Loop on our views array, getting back key/value
             _.each(this.nestedViews,function(currentView,selector){
+
+
+                // For each nested view reset model & collection attribute as they may have been affected in the loop
+                thisOptions.collection = that.options.collection;
+                thisOptions.model = that.options.model;
 
                 // Default behavior : do setElement on nested view and auto render it.
                 var setElement = true;
@@ -174,13 +231,13 @@
                 // selector references, don't parse the DOM each time.
                 var sel = that.$el.find(selector);
 
-                if (sel.length == 0) throw new Error("Your selector "+selector+" didn't match anything!");
+                if (sel.length === 0) throw new Error("Your selector "+selector+" didn't match anything!");
 
                 // If we are giving options, override default "view" and "setElement" variables. Also try to see if render is cancelled.
                 if (_.isPlainObject(currentView)) {
 
-                    if (_.isUndefined(currentView.view)) throw new Error('Object for selector must contains view');
-                    if (!_.isUndefined(currentView.render) && currentView.render == false) render=false;
+                    if (_.isUndefined(currentView.view)) throw new Error('Object for selector must contains a "view" attribute boy!');
+                    if (!_.isUndefined(currentView.render)) render=currentView.render;
                     var objReference = currentView;
 
                     // get back good view
@@ -201,6 +258,11 @@
 
 
                 }
+                // Check if our nested view is an instance of a CollectionView, if it is, we don't want to pass a model.
+                if (!_.isUndefined(currentView.prototype.modelView)) {
+                    delete thisOptions.model;
+                }
+
                 // Instantiate the current child view
                 var curView = new currentView(thisOptions);
                 // Either we're defining our selector as our $el for our new view
@@ -220,8 +282,9 @@
         },
         // Render implementation: templating & nesting views
         render:function() {
-
-            // Call father render to render our model
+            // Cleanup
+            this.clean();
+            // Call father render to render our model if we have one.
             CompositeView.__super__.render.call(this);
             // Render Nested Views
             this.renderNestedViews();
@@ -234,16 +297,16 @@
         clean:function() {
             CompositeView.__super__.clean.call(this);
             _.each(this._views,function(curView){
-                // Check these views are implemeting destroy
-                if (!_.isUndefined(curView.destroy)) curView.destroy();
+                curView.remove();
             });
             this._views = [];
+            return this;
         }
 
     });
 
     // export => Keep this in our namespace
-    Backbone.Baguette.CompositeModelView = CompositeView;
+    Backbone.Baguette.CompositeView = CompositeView;
 
 
     // ----------------------------------------------------------------//
@@ -251,22 +314,23 @@
     // Render a collection by using modelView class or parameters     //
     // -------------------------------------------------------------- //
 
-    var CollectionView = BaseView.extend({
+    var CollectionView = LoadableView.extend({
 
         noBind:false,
         modelView:Backbone.Baguette.ModelView,
         _views:[],
 
         initialize:function(options) {
-            // Call father initialize
-            CollectionView.__super__.initialize.call(this,options);
             // Convert options & assign
             optionsToObject(this);
+            // Call father initialize
+            CollectionView.__super__.initialize.call(this,options);
             // Reset views array to assign it on our instance and take it out of shared prototype
             this._views = [];
             // Checking & binding
             if (_.isUndefined(this.collection)) throw new Error('CollectionView needs a collection!');
-            if (!this.noBind) this.bindTo(this.collection,'add reset remove',this.render,this);
+            if (!this.noBind) this.listenTo(this.collection,'add reset remove',this.render);
+
         },
         render:function() {
             var that = this;
@@ -309,38 +373,20 @@
         // Override BaseView "default" clean function
         // as we have nested views here!
         clean:function() {
-            CollectionView.__super__.clean.call(this);
-            _.each(this._views,function(curView){
 
-                // Check these views are implemeting destroy
-                if (!_.isUndefined(curView.destroy)) curView.destroy();
+            _.each(this._views,function(curView){
+                curView.remove();
             });
             this._views = [];
+            return this;
         }
 
     });
     // export
     Backbone.Baguette.CollectionView = CollectionView;
 
-    // --- BACKBONE SYNC PATCH ---- //
+
+    return Backbone.Baguette;
 
 
-    // Override backbone sync  to emit fetch events
-    // keep a reference to original backbone sync
-    var syncReference = Backbone.sync;
-
-    var BaguetteSync = function(method,model,options) {
-        model.trigger('syncing',method,model,options);
-        // Call original backbone sync
-        syncReference(method,model,options);
-
-    };
-
-    // Keep a reference of our sync function in our namespace
-    // in order to use it if you are already overrding Backbone sync
-    Backbone.Baguette.sync = BaguetteSync;
-
-    Backbone.sync = BaguetteSync;
-
-
-})();
+});

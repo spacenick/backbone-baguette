@@ -1,0 +1,11 @@
+{
+  "name": "backbone-baguette",
+  "version": "0.0.3",
+  "description": "Backbone freshly toasted components",
+  "author": "Nicolas Kermarc <nicolas.kermarc@gmail.com>",
+  "dependencies": {
+    "backbone": "0.9.9",
+    "lodash": "1.x.x",
+    "handlebars":"1.x.x"
+  }
+}
