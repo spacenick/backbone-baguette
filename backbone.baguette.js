@@ -1,8 +1,8 @@
 // Backbone Baguette v 0.0.3
-// Updated 12/14/12
+// Updated 12/17/12
 // Wrote by Nicolas KERMARC
 // @spacenick
-// License info coming soon. Seriously do whatever you want with it
+// Released under MIT License
 // DOCS here http://spacenick.github.com/backbone-baguette
 
 (function(root){
@@ -95,7 +95,7 @@
                 // The loader is not cleaned when calling clean
                 this.listenTo(instOpts.ref,'request',this.renderLoader);
             }
-            _.bindAll(this);
+
         },
         renderLoader:function() {
             // Let implementation of clean to inherited classes : for instance
@@ -118,7 +118,6 @@
         tpl:"",
         noBind:false,
         templating:Backbone.Baguette.Templating,
-        loader:false,
         initialize:function(options) {
 
             // Options to class attributes overriding
@@ -130,7 +129,7 @@
             if (_.isUndefined(this.model)) this.noModel=true;
             // Bind it except if we specifically said NO or if we use a generic empty model
             if (!this.noBind && !this.noModel) this.listenTo(this.model,'change',this.render);
-            _.bindAll(this);
+
         },
         render:function() {
 
@@ -175,7 +174,6 @@
 
             CompositeView.__super__.initialize.call(this,options);
             this._views = [];
-            _.bindAll(this);
         },
         // Method to render all the nested views
         renderNestedViews:function() {

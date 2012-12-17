@@ -166,7 +166,6 @@ modelInst.fetch(); */
 
 
 
-// Initialize by rendering views
 var tweetModelSearch = new TweetSearch({});
 var tweetResults = new Tweets();
 

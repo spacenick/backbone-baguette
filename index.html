@@ -47,6 +47,9 @@
    
             <h1 id="Home">Backbone Baguette</h1>
             <p>Welcome on Backbone Baguette! The freshly toasted Backbone library that provides useful components for a quick bootstraping with Backbone in small to medium applications. Write less Backbone code, enjoy your app more! Baguette is <b>1.3Kb</b> minified+gzipped.</p>
+            <h3>Usage</h3>
+            <p>The Baguette Components can be found under the Backbone.Baguette namespace. To use Baguette, you just need to include the js after Backbone's.</p>
+            <p><a href="./backbone.baguette.js" class="btn btn-primary">Development version</a>  <a href="./backbone.baguette.min.js" class="btn btn-primary">Minified version</a></p>
             <h1>Components</h1>
 
 
@@ -96,7 +99,7 @@ model.fetch();
             </p>
 
             <h3 id="ModelView">ModelView <small>(extends <a href="#LoadableView">LoadableView</a>)</small></h3>
-            <p>ModelView is a powered Backbone.View that is able to render its content using a string <b>tpl</b> attribute. ModelView are also <b>auto-binded</b> by default on their model <b>change</b> event (calling its <b>render</b> method when it occurs). That is, you don't have to write again and again the redunant templating and event-binding code.</p>
+            <p>ModelView is a powered Backbone.View that is able to render its content using a string <b>tpl</b> attribute. ModelView are also <b>auto-binded</b> by default on their model <b>change</b> event (calling their <b>render</b> method when it occurs). That is, you don't have to write again and again the redunant templating and event-binding code.</p>
             <pre class="prettyprint">
 var car = new Backbone.Model({brand:"Peugeot",name:"405"});
 
@@ -112,6 +115,29 @@ myView.render().$el.appendTo('body');
 car.set({name:'508'});
 // View refreshed "My car is a Peugeot 508"
 </pre>
+<p><a href="#" class="btn btn-primary" onclick='$("#exampleModelView").slideToggle(); return false;'>See this example without Baguette</a></p>
+<pre class="prettyprint" style="display:none; margin-top:20px;" id="exampleModelView">
+var car = new Backbone.Model({brand:"Peugeot",name:"405"});
+
+var ModelView = Backbone.Baguette.View.extend({
+  initialize:function() {
+    this.listenTo(this.model,'change',this.render);
+  },
+  render:function() {
+   this.$el.html(Handlebars.compile("My car is a {{brand}} {{name}}")(this.model.toJSON()));
+   return this;
+  }
+});
+
+var myView = new ModelView({model:car});
+
+myView.render().$el.appendTo('body');
+// "My car is a Peugeot 405" inserted to body
+
+car.set({name:'508'});
+// View refreshed "My car is a Peugeot 508"
+</pre>
+
 <p>You can also use a <b>ModelView</b> without a model but with a <b>tpl</b>, in order to quickly render a static template.</p>
 
     <h4>Methods</h4>
@@ -177,6 +203,55 @@ var MyGarageView = Backbone.Baguette.CollectionView.extend({
   modelView:CarView,
   loader:true
 });
+var myGarageView = new GarageView({collection:myGarage});
+myGarageView.render().$el.appendTo('body');
+// My two CarViews are appended to the DOM
+// Wrapped by the GarageView element (div by default)
+
+myGarage.add(new Backbone.Model({brand:"Citroën",name:"C3"}));
+// View refreshed, the new CarView is added!
+myGarage.fetch();
+// Loader is popping up untill data comes!
+myGarageView.remove();
+// All inner views are properly removed to avoid memory leaks
+</pre>
+<p><a href="#" class="btn btn-primary" onclick='$("#exampleCollectionView").slideToggle(); return false;'>See this example without Baguette</a></p>
+<pre class="prettyprint" style="display:none; margin-top:20px;" id="exampleCollectionView">
+var peugeot = new Backbone.Model({brand:"Peugeot",name:"508"});
+var renault = new Backbone.Model({brand:"Renault",name:"11"});
+var myGarage = new Backbone.Collection([peugot,renault]);
+
+var CarView = Backbone.Baguette.ModelView.extend({tpl:"My car is a {{brand}} {{name}}"});
+var MyGarageView = Backbone.View.extend({
+  initialize:function() {
+    this._views = [];
+    this.listenTo(this.collection,'add reset remove',this.render);
+  },
+  render:function() {
+    var this = that;
+    this.clean();
+    this.collection.each(function(model){
+      var tempView = new CarView({model:model});
+      that.$el.append(tempView.render().$el);
+      that._views.push(tempView);      
+    });
+    return this;
+  },
+  clean:function() {
+   this._views.each(function(view){
+      view.remove();
+    });
+    this.views = [];
+    return this;
+  }, 
+  remove:function() {
+    this.clean();
+    Backbone.View.prototype.remove.call(this);
+    return this;
+  }
+});
+// ^ And I don't even write the loader code
+
 var myGarageView = new GarageView({collection:myGarage});
 myGarageView.render().$el.appendTo('body');
 // My two CarViews are appended to the DOM
