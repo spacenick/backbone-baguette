@@ -1,8 +1,8 @@
 // Backbone Baguette v 0.0.3
-// Updated 12/14/12
+// Updated 12/17/12
 // Wrote by Nicolas KERMARC
 // @spacenick
-// License info coming soon. Seriously do whatever you want with it
+// Released under MIT License
 // DOCS here http://spacenick.github.com/backbone-baguette
 
 (function(root){
