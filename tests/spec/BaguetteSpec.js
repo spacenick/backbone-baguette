@@ -1,4 +1,9 @@
+describe("Baguette LoadableView",function(){
 
+
+
+
+});
 
 describe("Baguette ModelView",function(){
 	var View, Model, view, model;
@@ -9,6 +14,7 @@ describe("Baguette ModelView",function(){
 		Model = Backbone.Model;
 		View = Backbone.Baguette.ModelView;
 		spyOn(View.prototype,'render').andCallThrough();
+
 
 		model = new Model();
 		view = new View({model:model, tpl:"{{name}}"});
@@ -23,7 +29,7 @@ describe("Baguette ModelView",function(){
 
 
 	it("should bind to model automatically & set $el to templated content",function(){
-
+		
 		model.set({name:"test"});
 		expect(view.render).toHaveBeenCalled();
 		expect(view.el.innerHTML).toEqual("test");

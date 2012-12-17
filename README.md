@@ -6,9 +6,3 @@ This project is highly inspired by Aura and Backbone Marionnette, but is aiming 
 
 [DOCS and EXAMPLES](http://spacenick.github.com/backbone-baguette)
 
-**Update 11/12**
-Added initial tests for ModelView & CollectionView, more are coming
-
-TODO : Has to remove the Backbone.sync as it has been merged into the official repo
-
-TODO : Be able to add loader:true to any Model or Collection View in order to display a -globally configurable- loader easily when models/collections are fetched

@@ -118,7 +118,7 @@ var SearchResultsTweet = Backbone.Baguette.ModelView.extend({
 		click:'click'
 	},
 	click:function() {
-		alert('Selected a tweet from '+this.model.get('from_user'));
+		window.open('https://twitter.com/'+this.model.get('from_user')+'/status/'+this.model.get('id_str'));
 	}
 });
 
@@ -142,13 +142,30 @@ var SearchResultsLayout = Backbone.Baguette.CompositeView.extend({
 	}
 });
 
+/* LOADER ON MODEL VIEW EXAMPLE
+var SingleTweetModel = Backbone.Model.extend({
+	url:'http://api.twitter.com/1/statuses/show.json?id=280348653858729984',
+	sync:function(method,model,options) {
+		options.dataType = "jsonp";
+		Backbone.sync.call(this,method,model,options);
+	}
+});
+
+var TweetView = Backbone.Baguette.ModelView.extend({
+	compiledTemplate:Handlebars.templates['tweet'],
+	id:'singleTweet',
+	loader:true
+})
+
+var modelInst = new SingleTweetModel();
+var tweetView = new TweetView({model:modelInst});
+tweetView.render().$el.appendTo('body');
+modelInst.fetch(); */
 
 
 
 
 
-
-// Initialize by rendering views
 var tweetModelSearch = new TweetSearch({});
 var tweetResults = new Tweets();
 

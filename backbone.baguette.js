@@ -5,20 +5,11 @@
 // License info coming soon. Seriously do whatever you want with it
 // DOCS here http://spacenick.github.com/backbone-baguette
 
-(function(baguette){
+(function(root){
 
-    // RequireJS support.
-    if (typeof define == "function") {
-        define(baguette);
-    }
-    // Classical browser env
-    else {
-        baguette(Backbone,_);
-    }
-
-})(function(Backbone,_){
-
-    if (typeof Backbone == 'undefined' || typeof _ == 'undefined') throw new Error('Backbone & underscore required!');
+    if (typeof root.Backbone == 'undefined' || typeof root._ == 'undefined') throw new Error('Backbone & underscore required!');
+    var Backbone = root.Backbone;
+    var _ = root._;
 
     // underscore compatibility (lo-dash used here). to be dropped as it may not be cross browser
     if (_.isUndefined(_.isPlainObject)) {
@@ -43,7 +34,7 @@
 
 
     // Keep it in our baguette namespace.
-    Backbone.Baguette.templating = TemplatingFunction;
+    Backbone.Baguette.Templating = TemplatingFunction;
 
     // List of our attributes
     var BaguetteCustomAttributes = ["noBind","tpl","modelView","templating","nestedViews","loaderView","loader"];
@@ -75,21 +66,7 @@
     //  Binded by default on a model or collection (model is prioritary)//
     // -------------------------------------------------------------- //
     var LoaderView = Backbone.View.extend({
-        className:'loader',
-        initialize:function(options) {
-            var toListenObj;
-            if (!_.isUndefined(this.model)) toListenObj = this.model;
-            else if (!_.isUndefined(this.collection)) toListenObj = this.collection;
-            // Export this to be grabbed by other views in order to know on what is binded the loader
-            this.toListenObj = toListenObj;
-            // Listen baby!
-            this.listenTo(toListenObj,'request',_.bind(this.$el.show,this.$el));
-            this.listenTo(toListenObj,'sync',_.bind(this.$el.hide,this.$el));
-
-            // Hide by default obv
-            this.$el.hide();
-            return this;
-        }
+        className:'loader'
     });
 
     // export
@@ -114,19 +91,17 @@
                 else if (!_.isUndefined(this.collection)) instOpts = {collection:this.collection,ref:this.collection};
                 // Instantiate the loader, keep a reference to loaderView and append to our $el
                 this.loaderViewInstance = new loaderView(instOpts);
-                this.loaderViewInstance.render().$el.appendTo(this.$el);
                 // If we have a loader, when we do request we need to clean the $el in order for him to properly show up
                 // The loader is not cleaned when calling clean
-                this.listenTo(instOpts.ref,'request',this.clean);
+                this.listenTo(instOpts.ref,'request',this.renderLoader);
             }
+
         },
-        remove:function() {
-            // Properly clean remove loader if there is one
-            if (!_.isUndefined(this.loaderViewInstance) && !_.isUndefined(this.loaderViewInstance.remove)) {
-               this.loaderViewInstance.remove(); 
-            }
-            Backbone.View.prototype.remove.call(this);
-            return this;
+        renderLoader:function() {
+            // Let implementation of clean to inherited classes : for instance
+            // CollectionView will destroy any child ModelView when cleaning!
+            this.clean();
+            this.$el.html(this.loaderViewInstance.render().$el);
         }
     });
 
@@ -142,8 +117,7 @@
     var ModelView = LoadableView.extend({
         tpl:"",
         noBind:false,
-        templating:Backbone.Baguette.templating,
-        loader:false,
+        templating:Backbone.Baguette.Templating,
         initialize:function(options) {
 
             // Options to class attributes overriding
@@ -155,12 +129,9 @@
             if (_.isUndefined(this.model)) this.noModel=true;
             // Bind it except if we specifically said NO or if we use a generic empty model
             if (!this.noBind && !this.noModel) this.listenTo(this.model,'change',this.render);
-            _.bindAll(this,'clean');
+
         },
         render:function() {
-
-            // Empty our $el and render the view.
-            this.clean();
 
             if (!this.noModel) {
 
@@ -170,7 +141,7 @@
                 else this.$el.html(this.templating(this.tpl,this.model.toJSON()));
             }
             // No templating needed, just set raw template to $el....
-            else this.clean().$el.html(this.tpl);
+            else this.$el.html(this.tpl);
             // Let's get chained! Oh yeah.
             return this;
         },
@@ -203,7 +174,6 @@
 
             CompositeView.__super__.initialize.call(this,options);
             this._views = [];
-            _.bindAll(this);
         },
         // Method to render all the nested views
         renderNestedViews:function() {
@@ -370,13 +340,15 @@
 
             return this;
         },
-        // Override BaseView "default" clean function
-        // as we have nested views here!
+
         clean:function() {
 
             _.each(this._views,function(curView){
                 curView.remove();
             });
+
+            this.$el.empty();
+
             this._views = [];
             return this;
         }
@@ -389,4 +361,4 @@
     return Backbone.Baguette;
 
 
-});
+})(this);
