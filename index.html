@@ -86,7 +86,8 @@ model.fetch();
                 <p>Remove the $el from the DOM, calling first remove on the loader view in order to avoid memory leaks; and then delegating to the default implementation.</p>
             </p>
 
-            <h4>Options</h4>
+            <h4>Properties</h4>
+             <p><i>In Baguette, any property can be either set on the View definition (prototype) or set in the options object given to the constructor.</i></p>
             <p><b>loader</b> Boolean (default : <i>false</i>)
                 <p>Defines if the View has to handle itself appending the loader to the DOM etc. This is disabled by default as ModelView and CollectionView are extending from LoadableView.</p>
             </p>
@@ -117,8 +118,8 @@ car.set({name:'508'});
     <p><b>render</b> <i>no arguments</i></p>
     <p>Render the current ModelView, setting its <b>el</b> element using its template and its model data as context. Return the current object for method chaining.</p>
 
-    <h4>Options</h4>
-    <p><i>In Baguette, any option can be either set on the View definition (prototype) or set in the options object given to the constructor.</i></p>
+    <h4>Properties</h4>
+    <p><i>In Baguette, any property can be either set on the View definition (prototype) or set in the options object given to the constructor.</i></p>
     <p>
         <b>tpl</b> String (default : "")
         <p>Defines a String template to be used by the templating engine to render the HTML content for the view.</p>
@@ -201,8 +202,8 @@ myGarage.fetch();
         </p>
     </p>
 
-    <h4>Options</h4>
-    <p><i>In Baguette, any option can be either set on the View definition (prototype) directly or can be passed as an option hash at instantiation time.</i></p>
+    <h4>Properties</h4>
+     <p><i>In Baguette, any property can be either set on the View definition (prototype) or set in the options object given to the constructor.</i></p>
     <p>
         <b>modelView</b> Backbone.View extending Function <b>or</b> Object (default : </i><a href="#ModelView">Backbone.Baguette.ModelView</a></i>)
         <p>Specify a custom view to be used for rendering nested model Views. You can also give an object containing the same options that you would define directly in a ModelView for instance.</p>
@@ -227,7 +228,7 @@ var MyGarageView = Backbone.Baguette.CollectionView.extend({
     <p>
 
     <p>
-        <b>Inherited options</b>
+        <b>Inherited properties</b>
     </p>
     <p>
         <b>loader</b> Boolean (default : <i>false</i>)
