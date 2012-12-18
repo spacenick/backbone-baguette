@@ -80,6 +80,8 @@
     var LoadableView = Backbone.View.extend({
         loader:false,
         initialize:function(options) {
+            // Options to class attributes overriding
+            optionsToObject(this);
             // Loader! b00m magic
             if (this.loader) {
                 var loaderView;
@@ -119,9 +121,6 @@
         noBind:false,
         templating:Backbone.Baguette.Templating,
         initialize:function(options) {
-
-            // Options to class attributes overriding
-            optionsToObject(this);
             ModelView.__super__.initialize.call(this,options);
             // We assume that most of the time a model will be given
             this.noModel=false;
@@ -291,8 +290,6 @@
         _views:[],
 
         initialize:function(options) {
-            // Convert options & assign
-            optionsToObject(this);
             // Call father initialize
             CollectionView.__super__.initialize.call(this,options);
             // Reset views array to assign it on our instance and take it out of shared prototype
