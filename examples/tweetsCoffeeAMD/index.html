@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Find tweets with Baguette!</title>
+  <link href="http://fonts.googleapis.com/css?family=Droid+Sans|Lekton|Ubuntu+Mono:400,700" rel="stylesheet" type="text/css">
+  <style>
+  	body {
+  		background:url(http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/creampaper.png) repeat;
+  		padding-top:50px;
+  		font-family:'Droid Sans', sans-serif;
+  	}
+  	#search,#results {
+  		width:800px;
+  		margin:0 auto;
+  	}
+  	#search .searchBox input {
+  		width:100%;
+  		font-size:18px;
+  		font-family:'Droid Sans',sans-serif;
+  		padding:10px;
+  		border:1px solid #D8D8D8;
+  	}
+    #singleTweet {
+      position:relative;
+      min-height:100px;
+      width:100%;
+    }
+  	.hint {
+  		margin-top:10px;
+  	}
+  	#results {
+  		margin-top:50px;
+  	}
+  	.searchResults ul {
+  		list-style-type: none;
+      position:relative;
+      min-height:500px;
+
+  	}
+  	.searchResults li img {
+  		float:left;
+  		clear:left;
+  		margin:5px;
+  	}
+  	li {
+  		margin-top:10px;
+  		padding:10px;
+  		background:#FFF;
+
+		box-shadow: 0px 0px 1px #888;
+  		display:block;
+  		cursor:pointer;
+  	}
+
+  	.clearer {
+  		clear:both;
+  	}
+    .loader {
+      width:32px;
+      height:32px;
+      position:absolute;
+      background:url(http://www.mytreedb.com/uploads/mytreedb/loader/ajax_loader_gray_32.gif) no-repeat;
+      left:50%;
+      top:50%;
+      margin-top:-16px;
+      margin-left:-16px;
+
+    }
+
+  </style>
+
+</head>
+<body>
+<center><p><a href="https://github.com/spacenick/backbone-baguette/tree/master/examples/tweetsCoffeeAMD">Source code</p></center>
+
+<script src="http://requirejs.org/docs/release/2.1.2/minified/require.js" data-main="scripts/main"></script>
+</body>
+</html>
