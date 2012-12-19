@@ -46,11 +46,47 @@
       <div class="content">
    
             <h1 id="Home">Backbone Baguette</h1>
-            <p>Welcome on Backbone Baguette! The freshly toasted Backbone library that provides useful components for a quick bootstraping with Backbone in small to medium applications. Write less Backbone code, enjoy your app more! Baguette is <b>1.3Kb</b> minified+gzipped.</p>
-            <h3>Usage</h3>
-            <p>The Baguette Components can be found under the Backbone.Baguette namespace. To use Baguette, you just need to include the js after Backbone's.</p>
-            <p><a href="./backbone.baguette.js" class="btn btn-primary">Development version</a>  <a href="./backbone.baguette.min.js" class="btn btn-primary">Minified version</a></p>
-            <h1>Components</h1>
+            <p>Welcome on Backbone Baguette! The freshly toasted Backbone library that provides useful components for a quick bootstraping with Backbone in small to medium applications. Write less Backbone code, enjoy your app more! Baguette is <b>1.4Kb</b> minified+gzipped.</p>
+
+            <h3>Classic usage</h3>
+            <p>The Baguette Components can be found under the <b>Backbone.Baguette</b> namespace. To use Baguette, you just need to include the js after Backbone's.</p>
+            <p><a href="./backbone.baguette.min.js" class="btn btn-primary">Download minified version</a></p>
+            <h4 style="margin-top:20px;">Custom build</h4>
+            <p>Coming soon!</p>
+
+            <h3 style="margin-top:10px;">AMD usage</h3>
+            <p>Baguette is wrote in a modular way, and is provided with AMD support (particulary with <a href="http://requirejs.org/" target="new">RequireJS</a>). To use Baguette with Require, first, <a href="https://github.com/spacenick/backbone-baguette/archive/master.zip">download the whole source</a>, extract it somewhere in your application directory, and then, you will need to edit your RequireJS configuration : </p>
+
+            <pre class="prettyprint">
+// Sample config              
+require.config({
+  shim:{
+    'lib/backbone':{
+      deps:['lib/underscore','lib/jquery'],
+      exports:'Backbone'
+    }
+  },
+  paths:{
+    // I've extracted the master.zip to lib/baguette
+    Baguette:'lib/baguette/src',
+  },
+    // Alias : baguette is requiring 'Backbone' module on each components.
+  map:{
+    '*':{
+       'Backbone':'lib/backbone'
+     }
+  }
+})
+</pre>
+            <p><span class="label label-important">Important</span> By default, any Baguette components has a dependency for the 'Backbone' module. If your actual shim for Backbone is not set to the 'Backbone' module ID, you will need to create an alias like above.</p>
+            <p>Now, you will be able to use only the components you need by doing :</p>
+            <pre class="prettyprint">
+define(['Baguette/CollectionView'],function(CollectionView){
+  //...blabla
+});
+</pre>
+
+            <h1 style="margin-top:35px;">Components</h1>
 
 
             <h3 id="LoadableView">LoadableView</h3>
