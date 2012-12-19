@@ -9,6 +9,7 @@
     "handlebars": "1.x.x"
   },
   "devDependencies": {
-    "grunt-contrib-concat": "~0.1.1"
+    "grunt-contrib-concat": "~0.1.1",
+    "grunt-contrib-coffee": "~0.3.2"
   }
 }
