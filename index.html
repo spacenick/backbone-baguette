@@ -11,7 +11,7 @@
         <meta name="viewport" content="width=device-width">
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
+        <link rel="shortcut icon" href="./favicon.ico">
         <link href="http://fonts.googleapis.com/css?family=Droid+Sans|Lekton|Ubuntu+Mono:400,700" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="styles/0e14e443.main.css">
         <script src="scripts/vendor/cf69c6f2.modernizr.min.js"></script>
@@ -264,7 +264,7 @@ var MyGarageView = Backbone.View.extend({
     this.listenTo(this.collection,'add reset remove',this.render);
   },
   render:function() {
-    var this = that;
+    var that = this;
     this.clean();
     this.collection.each(function(model){
       var tempView = new CarView({model:model});
