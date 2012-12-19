@@ -156,7 +156,7 @@ car.set({name:'508'});
 <pre class="prettyprint" style="display:none; margin-top:20px;" id="exampleModelView">
 var car = new Backbone.Model({brand:"Peugeot",name:"405"});
 
-var ModelView = Backbone.Baguette.View.extend({
+var ModelView = Backbone.View.extend({
   initialize:function() {
     this.listenTo(this.model,'change',this.render);
   },
