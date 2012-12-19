@@ -6,16 +6,16 @@
     } else {
         // Browser globals (root is window)
         if (_.isUndefined(Backbone.Baguette) || _.isUndefined(Backbone.Baguette.LoadableView)) throw new Error("Backbone & Backbone.Baguette.LoadableView needed");
-        root.Backbone.Baguette.ModelView = factory(root.Backbone.Baguette.LoadableView);
+        root.Backbone.Baguette.ModelView = factory(root.Backbone.Baguette.Templating,root.Backbone.Baguette.LoadableView);
     }
 
 
-})(this,function(LoadableView){
+})(this,function(Templating,LoadableView){
 
     var ModelView = LoadableView.extend({
         tpl:"",
         noBind:false,
-        templating:Backbone.Baguette.Templating,
+        templating:Templating,
         initialize:function(options) {
             ModelView.__super__.initialize.call(this,options);
             // We assume that most of the time a model will be given

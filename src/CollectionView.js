@@ -2,20 +2,20 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['./Utils','./LoadableView'],factory);
+        define(['./Utils','./LoadableView','./ModelView'],factory);
     } else {
         // Browser globals (root is window)
         if (_.isUndefined(Backbone.Baguette) || _.isUndefined(Backbone.Baguette.LoadableView) || _.isUndefined(Backbone.Baguette.Utils)) throw new Error("Backbone & Backbone.Baguette.LoadableView && Backbone.Baguette.Utils needed");
-        root.Backbone.Baguette.CollectionView = factory(root.Backbone.Baguette.Utils,root.Backbone.Baguette.LoadableView);
+        root.Backbone.Baguette.CollectionView = factory(root.Backbone.Baguette.Utils,root.Backbone.Baguette.LoadableView, root.Backbone.Baguette.ModelView);
     }
 
 
-})(this,function(Utils,LoadableView){
+})(this,function(Utils,LoadableView,ModelView){
 
     var CollectionView = LoadableView.extend({
 
         noBind:false,
-        modelView:Backbone.Baguette.ModelView,
+        modelView:ModelView,
         _views:[],
 
         initialize:function(options) {

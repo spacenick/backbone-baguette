@@ -2,7 +2,7 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(factory);
+        define(['Backbone'],factory);
     } else {
         // Browser globals (root is window)
         if (_.isUndefined(root.Backbone.Baguette)) root.Backbone.Baguette = {};

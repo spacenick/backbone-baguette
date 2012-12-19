@@ -1,6 +1,6 @@
 {
   "name": "backbone-baguette",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Backbone freshly toasted components",
   "author": "Nicolas Kermarc <nicolas.kermarc@gmail.com>",
   "dependencies": {

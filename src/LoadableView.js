@@ -3,15 +3,15 @@
     // https://github.com/umdjs/umd/blob/master/returnExports.js
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['./Utils','./Loader'],factory);
+        define(['Backbone','./Utils','./Loader'],factory);
     } else {
         // Browser globals (root is window)
         if (_.isUndefined(root.Backbone.Baguette) || _.isUndefined(root.Backbone.Baguette.Utils)) throw new Error('Backbone & Baguette.Utils required!');
-        root.Backbone.Baguette.LoadableView = factory(root.Backbone.Baguette.Utils,root.Backbone.Baguette.Loader);
+        root.Backbone.Baguette.LoadableView = factory(root.Backbone, root.Backbone.Baguette.Utils,root.Backbone.Baguette.Loader);
     }
 
 
-})(this,function(Utils,Loader){
+})(this,function(Backbone,Utils,Loader){
 
     var LoadableView = Backbone.View.extend({
         loader:false,

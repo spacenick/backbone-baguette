@@ -20,6 +20,7 @@
   <script src="http://sinonjs.org/releases/sinon-1.5.2.js"></script>
   <!-- include spec files here... -->
   <script type="text/javascript" src="spec/BaguetteSpec.js"></script>
+  <script src="http://requirejs.org/docs/release/2.1.2/minified/require.js"></script>
 
   <script type="text/javascript">
     (function() {
@@ -40,6 +41,31 @@
         if (currentWindowOnload) {
           currentWindowOnload();
         }
+        requirejs.config({
+        baseUrl:'./',
+        shim:{
+          'backbone':{
+            deps:['lodash','jquery'],
+            exports:'Backbone'
+          }
+        },
+        paths:{
+          Baguette:'../src',
+
+        },
+        map:{
+          '*':{
+            'Backbone':'backbone'
+          }
+        }
+      });
+
+        require(['Baguette/CollectionView'],function(CollectionView){
+          console.log(CollectionView);
+        })
+
+
+
         execJasmine();
       };
 
