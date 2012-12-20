@@ -28,11 +28,12 @@
           <li class="nav-header">Baguette</li>
           <li class="active"><a href="#Home">About</a></li>
           <li><a href="http://www.github.com/spacenick/backbone-baguette" target="new">GitHub</a></li>
+          <li><a href="#Sublime">Sublime Text 2</a></li>
           <li class="nav-header">Components</li>
           <li><a href="#LoadableView">LoadableView</a></li>
           <li><a href="#ModelView">ModelView</a></li>
           <li><a href="#CollectionView">CollectionView</a></li>
-          <li><a href="#">CompositeView</a></li>
+          <li><a href="#CompositeView">CompositeView</a></li>
           <li class="nav-header">Global configuration</li>
           <li><a href="#Templating">Templating</a></li>
           <li><a href="#Loader">Loader View</a></li>
@@ -59,8 +60,8 @@
             <p>Baguette is wrote in a modular way, and is provided with AMD support (particulary with <a href="http://requirejs.org/" target="new">RequireJS</a>). To use Baguette with Require, first, <a href="https://github.com/spacenick/backbone-baguette/archive/master.zip">download the whole source</a>, extract it somewhere in your application directory, and then, you will need to edit your RequireJS configuration : </p>
 
             <pre class="prettyprint">
-// Sample config              
-require.config({
+// Sample config             
+w require.config({
   shim:{
     'lib/backbone':{
       deps:['lib/underscore','lib/jquery'],
@@ -70,6 +71,8 @@ require.config({
   paths:{
     // I've extracted the master.zip to lib/baguette
     Baguette:'lib/baguette/src',
+    // Alias for r.js compiler
+    Backbone:'lib/backbone'
   },
     // Alias : baguette is requiring 'Backbone' module on each components.
   map:{
@@ -80,12 +83,28 @@ require.config({
 })
 </pre>
             <p><span class="label label-important">Important</span> By default, any Baguette components has a dependency for the 'Backbone' module. If your actual shim for Backbone is not set to the 'Backbone' module ID, you will need to create an alias like above.</p>
+            <p><span class="label label-info">Info</span> In order to make an alias, it seems that you need to define the <b>map</b> property when developing, but also the <b>paths</b> property for the r.js compiler. It's a bit weird but it seems that it's the way Rjs works.</p>
             <p>Now, you will be able to use only the components you need by doing :</p>
             <pre class="prettyprint">
 define(['Baguette/CollectionView'],function(CollectionView){
-  //...blabla
+  return CollectionView.extend({
+    // my custom options...
+  });
 });
 </pre>
+
+            <h3 id="Sublime">Sublime Text 2 shortcuts</h3>
+            <p>There is a <a href="https://github.com/spacenick/SublimeText2-BackboneBaguette-package" target="new">package available</a> for Sublime Text 2 that allow you to use some handy shortcuts :</p>
+            <p><ul>
+              <li><b>blv</b> Backbone.Baguette.LoadableView</li>
+              <li><b>bmv</b> Backbone.Baguette.ModelView</li>
+              <li><b>bcv</b> Backbone.Baguette.CollectionView</li>
+              <li><b>bcvv</b> Backbone.Baguette.CompositeView</li>
+              </ul>
+                You just have to type them followed by TAB and boom, magic! CoffeeScript is also supported. 100% inspired by <a href="https://github.com/tomasztunik/Sublime-Text-2-Backbone.js-package">Sublime Text 2 Backbone Package</a>
+            </p>
+
+
 
             <h1 style="margin-top:35px;">Components</h1>
 
@@ -356,6 +375,96 @@ var MyGarageView = Backbone.Baguette.CollectionView.extend({
         </p>
 
     </p>
+
+    <h3 id="CompositeView">CompositeView <small>(extends <a href="#ModelView">ModelView</a>)</small></h3>
+    <p>CompositeViews enable you to handle your nested views in a simple and elegant way. As it is extending from <a href="#ModelView">ModelView</a>, it can handle a model as arguments; and more than handling nested views, it also allows you to handle nested models and collections and pass them correctly to your nested views.</p>
+
+    <pre class="prettyprint">
+var complexModel = new Backbone.Model({simpleString:"hello"});
+complexModel.set('subModel', new Backbone.Model({attribute:"I'm a sub model!"}));
+
+var SubModelView = Backbone.Baguette.ModelView.extend({
+  tpl:"This is so much my attribute value : {{attribute}}"
+});
+
+var ComplexModelView = Backbone.Baguette.CompositeView.extend({
+  tagName:"p",
+  tpl:'&lt;div class="header"&gt;Welcome {{simpleString}}&lt;/div&gt;&lt;div class="content"&gt;&lt;/div&gt;',
+  nestedViews:{
+    '.content':{
+      view:SubModelView,
+      modelAttribute:'subModel'
+    }
+  }
+});
+var cmv = new ComplexModelView({model:complexModel});
+cmv.render().$el.appendTo('body');
+// Inserted to body:
+//&lt;p&gt;
+//&lt;div class="header"&gt;Welcome hello&lt;/div&gt;
+//&lt;div class="content"&gt;This is so much my attribute value : I'm a sub model!&lt;/div&gt;
+//&lt;/p&gt;
+</pre>
+    <h4>Methods</h4>
+
+    <p><b>render</b> <i>no arguments</i>
+        <p>
+            Render the whole composite view, creating on the fly nested views and passing them at instantiation time either a specific sub-model or sub-collection. Returns as well the current object so you can do some methods chaining.
+        </p>
+
+    </p>
+
+    <p><b>clean</b> <i>no arguments</i>
+        <p>
+            Empty the current <b>el</b>, destroying correctly subviews and avoiding memory leaks.
+        </p>
+    </p>
+
+    <h4>Properties</h4>
+     <p><i>In Baguette, any property can be either set on the View definition (prototype) or set in the options object given to the constructor.</i></p>
+    <p>
+        <b>nestedViews</b> Object (default : {})
+        <p>An object containing jQuery type selector (String) as keys and Views (or parameter Object) as values</p>
+        <pre class="prettyprint">
+// Different nestedViews configurations
+nestedViews:{
+  '.subview1 > #soSubbed':ViewDefinition,
+  '.subview1 > #soSubbed':{
+    view:ViewDefinition
+  } // ^ Both are ===
+}
+//
+nestedViews:{
+  '#main':{
+    view:MyView,
+// By default, Baguette will set the el of the nested view to the matched DOM element
+// If you want that your sub view still generates its el with its className etc set it to false
+    setElement:false
+  }
+}
+nestedViews:{
+  '#main':{
+    view:MyView,
+    collectionAttribute:'innerCollection',
+    // ^ MyView will be given {collection:model.get('innerCollection')} at instantiation time
+    // where model is the model given to your CompositeView
+    render:false
+    // ^ Prevent auto-render of subviews
+  }
+}
+
+</pre>
+    </p>
+      <p>
+        <b>Inherited properties</b>
+    </p>
+    <p>
+      <span class="label label-info">Properties</span> CompositeViews are extending ModelView (which are inheriting from LoadableView). It means you can still give a tpl to a CompositeView, define if it has to print a loader (loader:true), etc...
+    </p>
+    <p><span class="label label-warning">nestedViews properties</span> Your nestedViews are given the collection and model attributes of your CompositeView (if set), <b>unless</b> you specified a modelAttribute or collectionAttribute property.</p>
+    <p><span class="label label-alert">Nesting nested.</span> You can also nest a CompositeView inside a CompositeView and so on... You don't need to always give a model to a CompositeView, so you can also use it as a kind of LayoutManager (for instance for a navigation bar with buttons)</p>
+    <p><span class="label label-info">Subviews Binding</span> If one of your nested views is a <a href="#CollectionView">CollectionView</a> or a <a href="#ModelView">ModelView</a>, it will still be binded to the given collection/model, so your nested views are able to re-render themselves without repaiting the whole CompositeView.</p>
+
 
     <h1>Global Configuration</h1>
     <h3 id="Templating">Templating</h3>
