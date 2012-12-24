@@ -43,11 +43,12 @@
 
             // pass it also the eventual options given if its a pure object
             if (_.isPlainObject(this.modelView)) {
-                defaultView = Backbone.Baguette.ModelView;
+                defaultView = ModelView;
                 _.extend(thisOptions,this.modelView);
             }
             // if its a function, we've been given a View class!
             else defaultView = this.modelView;
+
 
             // Loop on collection
             this.collection.each(function(model){

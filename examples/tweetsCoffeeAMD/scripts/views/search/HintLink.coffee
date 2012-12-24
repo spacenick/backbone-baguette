@@ -1,5 +1,5 @@
 define ->
-	Backbone.View.extend
+	View extends Backbone.View
 		render:->
 			@$el.html '#MHSC'
 			@

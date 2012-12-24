@@ -52,7 +52,7 @@
 
             <h3>Classic usage</h3>
             <p>The Baguette Components can be found under the <b>Backbone.Baguette</b> namespace. To use Baguette, you just need to include the js after Backbone's.</p>
-            <p><a href="./backbone.baguette.min.js" class="btn btn-primary">Download minified version</a></p>
+            <p><a href="https://raw.github.com/spacenick/backbone-baguette/master/backbone.baguette.min.js" class="btn btn-primary">Download minified version</a></p>
             <h4 style="margin-top:20px;">Custom build</h4>
             <p>Coming soon!</p>
 
@@ -83,7 +83,7 @@ require.config({
 })
 </pre>
             <p><span class="label label-important">Important</span> By default, any Baguette components has a dependency for the 'Backbone' module. If your actual shim for Backbone is not set to the 'Backbone' module ID, you will need to create an alias like above.</p>
-            <p><span class="label label-info">Info</span> In order to make an alias, it seems that you need to define the <b>map</b> property when developing, but also the <b>paths</b> property for the r.js compiler. It's a bit weird but it seems that it's the way Rjs works.</p>
+            <p><span class="label label-info">Info</span> In order to make an alias, it seems that you need to define the <b>map</b> property when developing, but also the <b>paths</b> property for the r.js compiler. It's a bit weird but it seems that it's the way Rjs works. Otherwise, you can only use <b>paths</b> but you have to edit your shim label to "Backbone"</p>
             <p>Now, you will be able to use only the components you need by doing :</p>
             <pre class="prettyprint">
 define(['Baguette/CollectionView'],function(CollectionView){
