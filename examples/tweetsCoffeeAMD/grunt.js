@@ -7,11 +7,13 @@ module.exports = function(grunt) {
 		coffee: {
 	      compile: {
 	        files: {
-	          'scripts/*.js': ['scripts/*.coffee','scripts/**/*.coffee'] 
+	          'scripts/compiled.js': ['scripts/*.coffee','scripts/**/*.coffee'],
+	          'scripts/compiled2.js' : ['scripts2/test1.coffee'] 
 	        },
 	        options: {
 	          basePath: 'scripts',
-	          bare:true
+	          bare:false,
+	          join:true
 	        }
 	      }
 	    },
