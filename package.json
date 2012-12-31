@@ -12,5 +12,8 @@
     "grunt-contrib-concat": "~0.1.1",
     "grunt-jasmine-task": "~0.2.3",
     "grunt": "~0.3.17"
+  },
+  "scripts":{
+    "test":"grunt build"
   }
 }
