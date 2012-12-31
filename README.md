@@ -1,4 +1,4 @@
-backbone-baguette
+backbone-baguette [![Build Status](https://travis-ci.org/spacenick/backbone-baguette.png?branch=master)](https://travis-ci.org/spacenick/backbone-baguette)
 =================
 
 As a Backbone fanatic, I quickly noticed that I was running into the rewriting of a lot of similar code. I also did not wanted to use an on-top framework for small applications.
