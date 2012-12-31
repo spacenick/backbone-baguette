@@ -1,6 +1,6 @@
 {
   "name": "backbone-baguette",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Backbone freshly toasted components",
   "author": "Nicolas Kermarc <nicolas.kermarc@gmail.com>",
   "dependencies": {
@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "grunt-contrib-concat": "~0.1.1",
-    "grunt-contrib-coffee": "~0.3.2"
+    "grunt-jasmine-task": "~0.2.3",
+    "grunt": "~0.3.17"
   }
 }
