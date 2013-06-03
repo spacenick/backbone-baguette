@@ -16,6 +16,6 @@
     "grunt-contrib-jshint": "~0.6.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/grunt build"
+    "test": "grunt build"
   }
 }
