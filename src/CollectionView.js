@@ -2,11 +2,11 @@
 
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['./Utils','./LoadableView','./ModelView'],factory);
+        define(['./Utils','./LoadableView','./ModelView', 'Backbone'],factory);
     } else {
         // Browser globals (root is window)
         if (_.isUndefined(Backbone.Baguette) || _.isUndefined(Backbone.Baguette.LoadableView) || _.isUndefined(Backbone.Baguette.Utils)) throw new Error("Backbone & Backbone.Baguette.LoadableView && Backbone.Baguette.Utils needed");
-        root.Backbone.Baguette.CollectionView = factory(root.Backbone.Baguette.Utils,root.Backbone.Baguette.LoadableView, root.Backbone.Baguette.ModelView);
+        root.Backbone.Baguette.CollectionView = factory(root.Backbone.Baguette.Utils,root.Backbone.Baguette.LoadableView, root.Backbone.Baguette.ModelView, Backbone);
     }
 
 
@@ -46,8 +46,6 @@
                 defaultView = ModelView;
                 _.extend(thisOptions,this.modelView);
             }
-            // if its a function, we've been given a View class!
-            else defaultView = this.modelView;
 
 
             // Loop on collection
@@ -55,6 +53,12 @@
 
                 // Give the correct model to our options - _.extend is overriding!
                 _.extend(thisOptions,{model:model});
+                // We'll check if our defaultView is a function
+                // that should return a Backbone-type view
+                if (_.isFunction(that.modelView) && _.isEmpty(that.modelView.prototype)) {
+                    defaultView = that.modelView.call(that,model);
+                }
+
                 // Instantiate, render, & append
                 var tempCompositeView = new defaultView(thisOptions);
                 that.$el.append(tempCompositeView.render().$el);
@@ -69,14 +73,17 @@
         },
 
         clean:function() {
-
+            // Remove every of our sub-views (no ghosts plz)
             _.each(this._views,function(curView){
                 curView.remove();
             });
 
+            // Empty our container
             this.$el.empty();
 
+            // Reset our _views array
             this._views = [];
+
             return this;
         }
 

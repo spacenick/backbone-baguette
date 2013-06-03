@@ -3,3 +3,5 @@ node_modules
 build.sh
 temp
 /_SpecRunner.html
+.DS_Store
+.grunt/

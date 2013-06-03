@@ -56,13 +56,14 @@ describe("Baguette ModelView",function(){
 
 describe("Baguette CollectionView",function(){
 
-	var View, Model, view, model, Collection, CollectionView, collection, collectionView, collectionArray, model1, model2, model3;
+	var View, EuropeView, Model, view, model, Collection, CollectionView, collection, collectionView, collectionArray, model1, model2, model3;
 
 	beforeEach(function(){
 		
 		Model = Backbone.Model;
 
-		View = Backbone.Baguette.ModelView.extend({tpl:"{{name}}",tagName:'li'});
+		View = Backbone.Baguette.ModelView.extend({tpl:"US: {{name}} ({{location}})",tagName:'li'});
+		EuropeView = Backbone.Baguette.ModelView.extend({tpl:"EU: {{name}} ({{location}})",tagName:'li'});
 
 
 		Collection = Backbone.Collection;
@@ -72,9 +73,12 @@ describe("Baguette CollectionView",function(){
 		spyOn(View.prototype,'render').andCallThrough();
 		spyOn(Backbone.View.prototype,'remove').andCallThrough();
 
-		model1 = new Model({name:"Michel"});
-		model2 = new Model({name:"Tatus"});
-		model3 = new Model({name:"Jean-Marie"});
+		model1 = new Model({name:"Michel", location:"Paris"});
+		model2 = new Model({name:"Tatus", location:"San Francisco"});
+		model3 = new Model({name:"Jean-Marie", location:"London"});
+
+
+
 		collectionArray = [model1,model2,model3];
 
 		collection = new Collection(collectionArray);
@@ -101,7 +105,7 @@ describe("Baguette CollectionView",function(){
 		collection.remove(model1);
 		expect(collectionView.render.calls.length).toEqual(3);
 		expect(collectionView._views.length).toEqual(2);
-		expect(collectionView.el.innerHTML).toEqual("<li>Tatus</li><li>Jean-Marie</li>");
+		expect(collectionView.el.innerHTML).toEqual("<li>US: Tatus (San Francisco)</li><li>US: Jean-Marie (London)</li>");
 
 
 	});
@@ -109,7 +113,7 @@ describe("Baguette CollectionView",function(){
 	it("should render each collection item in the correct modelView & auto template it",function(){
 
 		collectionView.render();
-		expect(collectionView.el.innerHTML).toEqual("<li>Michel</li><li>Tatus</li><li>Jean-Marie</li>");
+		expect(collectionView.el.innerHTML).toEqual("<li>US: Michel (Paris)</li><li>US: Tatus (San Francisco)</li><li>US: Jean-Marie (London)</li>");
 		expect(collectionView._views.length).toEqual(3);
 		_.each(collectionView._views,function(curView,i){
 			expect(curView.model).toEqual(collectionArray[i]);
@@ -151,6 +155,32 @@ describe("Baguette CollectionView",function(){
 		});
 	});
 
+	it("should support function for modelView attribute",function() {
+
+		// Special case
+		var collectionViewLocationBased = new CollectionView({
+			collection:collection,
+			modelView:function(model) {
+				if (model.get('location') == "San Francisco") {
+					return View;
+				} 
+				else {
+					return EuropeView;
+				}
+			}
+		});
+
+		collectionViewLocationBased.render();
+
+		var expectedTemplateParameters = ["EU: Michel (Paris)","US: Tatus (San Francisco)","EU: Jean-Marie (London)"];
+		
+		_.each(collectionViewLocationBased._views,function(curView,i){
+			expect(curView.tagName).toEqual('li');
+			expect(curView instanceof Backbone.View).toBeTruthy();
+			expect(curView.el.innerHTML).toEqual(expectedTemplateParameters[i]);
+		});
+
+	});
 
 
 });
