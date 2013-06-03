@@ -43,7 +43,6 @@ describe("Baguette ModelView",function(){
 		var model2 = new Model();
 		var noBindView = new View({model:model2, noBind:true});
 		model2.set({name:"test"});
-		
 		expect(noBindView.render).not.toHaveBeenCalled();
 	
 	});
@@ -71,13 +70,12 @@ describe("Baguette CollectionView",function(){
 		// Spy before instantiating obv
 		spyOn(CollectionView.prototype,'render').andCallThrough();
 		spyOn(View.prototype,'render').andCallThrough();
+		spyOn(CollectionView.prototype,'addElement').andCallThrough();
 		spyOn(Backbone.View.prototype,'remove').andCallThrough();
 
 		model1 = new Model({name:"Michel", location:"Paris"});
 		model2 = new Model({name:"Tatus", location:"San Francisco"});
 		model3 = new Model({name:"Jean-Marie", location:"London"});
-
-
 
 		collectionArray = [model1,model2,model3];
 
@@ -155,6 +153,7 @@ describe("Baguette CollectionView",function(){
 		});
 	});
 
+	// modelView as a function
 	it("should support function for modelView attribute",function() {
 
 		// Special case
@@ -180,6 +179,27 @@ describe("Baguette CollectionView",function(){
 			expect(curView.el.innerHTML).toEqual(expectedTemplateParameters[i]);
 		});
 
+	});
+
+	// {add:true}
+	it("should support add:true and do not call render in that case.",function() {
+		// Let's order by asc comparator
+		var collectionAdd = new Backbone.Collection();
+		collectionAdd.comparator = function(model) {
+			return model.get('name');
+		}
+
+		var collectionViewAddTrue = new CollectionView({collection:collectionAdd, modelView: View, add:true});
+		// collectionViewAddTrue.render();
+
+		collectionAdd.add(model1);
+		collectionAdd.add(model2);
+		collectionAdd.add(model3);
+
+		expect(collectionViewAddTrue.render.calls.length).toBe(0);
+		expect(collectionViewAddTrue.el.innerHTML).toEqual("<li>US: Michel (Paris)</li><li>US: Tatus (San Francisco)</li><li>US: Jean-Marie (London)</li>");
+
+		// delete collection.comparator;
 	});
 
 

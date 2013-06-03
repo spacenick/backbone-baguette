@@ -1,3 +1,17 @@
+/*!
+ * Baguette v0.2.0
+ * baguette.io
+ *
+ * Heavy use of Backbone (MIT)
+ * backbonejs.org
+ *
+ * Copyright 2012, 2013 - Nicolas Kermarc (@spacenick)
+ * Released under the MIT license
+ * http://jquery.org/license
+ *
+ * 
+ */
+
 (function(root,factory){
 
     if (typeof define === 'function' && define.amd) {
