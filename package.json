@@ -1,0 +1,24 @@
+{
+  "name": "baguette-doc",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "backbone.baguette.min.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/spacenick/backbone-baguette.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "gitHead": "28ae4cf94f700e95b206f3acc620287d5e016170",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-sass": "~0.3.0",
+    "grunt-contrib-compass": "~0.2.0"
+  }
+}

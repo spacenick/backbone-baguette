@@ -13,14 +13,15 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="shortcut icon" href="./favicon.ico">
         <link href="http://fonts.googleapis.com/css?family=Droid+Sans|Lekton|Ubuntu+Mono:400,700" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="styles/a82d7cc9.main.css">
+        <link rel="stylesheet" href="css/main.css">
+
         <script src="scripts/vendor/cf69c6f2.modernizr.min.js"></script>
         <script type="text/javascript" src="scripts/e323de46.prettify.js"></script>
             
     </head>
 <body onload="prettyPrint()">
 
-
+  <a href="https://github.com/spacenick/backbone-baguette"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a><a href="https://github.com/you"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
 
       <div class="sidebar-nav">
         <ul class="nav nav-list">
@@ -52,11 +53,13 @@
 
             <h3>Classic usage</h3>
             <p>The Baguette Components can be found under the <b>Backbone.Baguette</b> namespace. To use Baguette, you just need to include the js after Backbone's.</p>
-            <p><a href="https://raw.github.com/spacenick/backbone-baguette/master/backbone.baguette.min.js" class="btn btn-primary">Download minified version</a></p>
-            <h4 style="margin-top:20px;">Custom build</h4>
-            <p>Coming soon!</p>
+            <p><a href="https://raw.github.com/spacenick/backbone-baguette/master/backbone.baguette.min.js" class="btn btn-primary btn-success">Download minified version</a></p>
+   <!--          <h4 style="margin-top:20px;">Custom build</h4>
+            <p>Coming soon!</p> -->
 
             <h3 style="margin-top:10px;">AMD usage</h3>
+            <p><a href="#" class="btn btn-small btn-primary" onclick='$("#AMDUsage").slideToggle(); return false;'>Click here to see AMD usage.</a></p>
+            <div id="AMDUsage" style="display:none;">
             <p>Baguette is wrote in a modular way, and is provided with AMD support (particulary with <a href="http://requirejs.org/" target="new">RequireJS</a>). To use Baguette with Require, first, <a href="https://github.com/spacenick/backbone-baguette/archive/master.zip">download the whole source</a>, extract it somewhere in your application directory, and then, you will need to edit your RequireJS configuration : </p>
 
             <pre class="prettyprint">
@@ -92,6 +95,7 @@ define(['Baguette/CollectionView'],function(CollectionView){
   });
 });
 </pre>
+</div>
 
             <h3 id="Sublime">Sublime Text 2 shortcuts</h3>
             <p>There is a <a href="https://github.com/spacenick/SublimeText2-BackboneBaguette-package" target="new">package available</a> for Sublime Text 2 that allow you to use some handy shortcuts :</p>

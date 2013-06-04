@@ -20,7 +20,7 @@ $white:                 #fff !default;
 
 // Accent colors
 // -------------------------
-$blue:                  #049cdb !default;
+$blue:                  #3498db !default;
 $blueDark:              #0064cd !default;
 $green:                 #46a546 !default;
 $red:                   #9d261d !default;
@@ -32,13 +32,13 @@ $purple:                #7a43b6 !default;
 
 // Scaffolding
 // -------------------------
-$bodyBackground:        $white !default;
+$bodyBackground:        #e6e9eb !default;
 $textColor:             $grayDark !default;
 
 
 // Links
 // -------------------------
-$linkColor:             darken(#08C, 15%) !default;
+$linkColor:             #3498db !default;
 $linkColorHover:        darken($linkColor, 15%) !default;
 
 
@@ -48,13 +48,13 @@ $sansFontFamily:        "Droid Sans", Helvetica, Arial, sans-serif !default;
 $serifFontFamily:       Georgia, "Times New Roman", Times, serif !default;
 $monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace !default;
 
-$baseFontSize:          14px !default;
+$baseFontSize:          16px !default;
 $baseFontFamily:        $sansFontFamily !default;
-$baseLineHeight:        20px !default;
+$baseLineHeight:        26.84px !default;
 $altFontFamily:         $serifFontFamily !default;
 
-$headingsFontFamily:    inherit !default; // empty to use BS default, $baseFontFamily
-$headingsFontWeight:    normal !default;    // instead of browser default, bold
+$headingsFontFamily:    "Helvetica Neue" !default; // empty to use BS default, $baseFontFamily
+$headingsFontWeight:    bold !default;    // instead of browser default, bold
 $headingsColor:         inherit !default; // empty to use BS default, $textColor
 
 

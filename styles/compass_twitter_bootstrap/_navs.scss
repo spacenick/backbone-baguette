@@ -21,8 +21,10 @@
 }
 .nav > li > a:hover {
   text-decoration: none;
-  background-color: $grayLighter;
-}
+  // background-color: $grayLighter;
+  background-color: lighten($linkColor,15%);
+  color:$white;
+  }
 
 // Redeclare pull classes because of specifity
 .nav > .pull-right {
@@ -36,8 +38,7 @@
   font-size: 12px;
   font-weight: bold;
   line-height: $baseLineHeight;
-  color: $gray;
-  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  color: $blue;
   text-transform: uppercase;
 }
 // Space them out when they follow another list item (link)
@@ -59,16 +60,18 @@
 .nav-list .nav-header {
   margin-left:  -15px;
   margin-right: -15px;
-  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  // text-shadow: 0 1px 0 rgba(255,255,255,.5);
 }
 .nav-list > li > a {
   padding: 3px 15px;
+  color:#D8D8D8;
 }
 .nav-list > .active > a,
 .nav-list > .active > a:hover {
   color: $white;
   text-shadow: 0 -1px 0 rgba(0,0,0,.2);
   background-color: $linkColor;
+  font-weight:bold;
 }
 .nav-list [class^="icon-"] {
   margin-right: 2px;
@@ -110,6 +113,9 @@
 // Make the list-items overlay the bottom border
 .nav-tabs > li {
   margin-bottom: -1px;
+}
+.nav-list li {
+  line-height: 20px;
 }
 // Actual tabs (as links)
 .nav-tabs > li > a {
