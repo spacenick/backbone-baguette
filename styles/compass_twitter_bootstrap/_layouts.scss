@@ -1,0 +1,30 @@
+//
+// Layouts
+// --------------------------------------------------
+
+
+// Container (centered, fixed-width layouts)
+.container {
+  @include container-fixed();
+}
+p > b:first-of-type {
+	color:$linkColorHover;
+}
+// Fluid layouts (left aligned, with sidebar, min- & max-width content)
+.container-fluid {
+  padding-right: $gridGutterWidth;
+  padding-left: $gridGutterWidth;
+  @include clearfix();
+}
+
+.content {
+	float:left;
+	padding:20px 30px 20px 30px;
+	// font-family:'Droid Sans', sans-serif;
+	width:600px;
+	margin-left:250px;
+}
+
+.sidebar-nav {
+  font-size:12px;
+}

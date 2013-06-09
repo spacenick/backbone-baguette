@@ -1,0 +1,2 @@
+define ->
+	Backbone.Model

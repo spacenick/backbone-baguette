@@ -1,19 +1,24 @@
 {
-  "name": "baguette-doc-flat",
+  "name": "baguette-doc",
   "version": "0.0.0",
-  "description": "Flat UI Pro =======",
-  "main": "Gruntfile.js",
+  "description": "ERROR: No README.md file found!",
+  "main": "backbone.baguette.min.js",
+  "directories": {
+    "example": "examples"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/spacenick/backbone-baguette.git"
+  },
   "author": "",
   "license": "BSD",
-  "readmeFilename": "README.md",
+  "gitHead": "28ae4cf94f700e95b206f3acc620287d5e016170",
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-contrib-less": "~0.6.0",
-    "grunt-contrib-connect": "~0.3.0",
-    "grunt-contrib-watch": "~0.4.4"
+    "grunt-contrib-sass": "~0.3.0",
+    "grunt-contrib-compass": "~0.2.0"
   }
 }
