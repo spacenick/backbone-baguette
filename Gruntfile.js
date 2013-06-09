@@ -1,20 +1,30 @@
 module.exports = function(grunt) {
-  grunt.loadNpmTasks('grunt-contrib-compass');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.initConfig({
-    compass: {                  // Task
-      dist: {                   // Target
-        options: {              // Target options
-          sassDir: 'styles',
-          cssDir: 'css',
-          environment: 'production'
+    less:{
+      development: {
+        // options: {
+        //   paths: ["assets/css"]
+        // },
+        files: {
+          "css/main.css": "less/flat-ui.less"
         }
+      }
+    },
+    watch:{
+      css: {
+        files: 'less/**/*.less',
+        tasks: ['less'],
+        options: {
+          livereload: true,
+        },
       }
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-sass');
 
-  grunt.registerTask('default', ['sass']);
+  grunt.registerTask('default', ['less']);
 
 }
