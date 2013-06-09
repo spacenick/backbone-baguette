@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link rel="shortcut icon" href="./favicon.ico">
+        <link href="http://fonts.googleapis.com/css?family=Droid+Sans|Lekton|Ubuntu+Mono:400,700" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="scripts/vendor/cf69c6f2.modernizr.min.js"></script>
+        <script type="text/javascript" src="scripts/e323de46.prettify.js"></script>
+        <style type="text/css">
+          body {
+            background:url('../images/textured_paper.png') repeat;
+          }
+        </style>
+    </head>
+<body onload="prettyPrint()">
+
+  <a href="https://github.com/spacenick/backbone-baguette"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+      <div class="sidebar-nav">
+        <ul class="nav nav-list">
+            <li class="nav-header"><img src="images/a638d930.baguette.png" width="150" height="150" /></li>
+          <li class="nav-header">Baguette</li>
+          <li class="active"><a href="#Home">About</a></li>
+          <li><a href="http://www.github.com/spacenick/backbone-baguette" target="new">GitHub</a></li>
+          <li><a href="#Sublime">Sublime Text 2</a></li>
+          <li class="nav-header">Components</li>
+          <li><a href="#LoadableView">LoadableView</a></li>
+          <li><a href="#ModelView">ModelView</a></li>
+          <li><a href="#CollectionView">CollectionView</a></li>
+          <li><a href="#CompositeView">CompositeView</a></li>
+          <li class="nav-header">Global configuration</li>
+          <li><a href="#Templating">Templating</a></li>
+          <li><a href="#Loader">Loader View</a></li>
+          <li class="nav-header">Examples</li>
+          <li><a href="examples/tweets/tweets.html" target="new">Twitter Search</a></li>
+          <li><a href="examples/tweetsCoffeeAMD/index.html" target="new">Twitter Search AMD/Coffee</a></li>
+          
+
+        </ul>
+      </div><!--/.well -->
+
+      <div class="content">
+   
+            <h1 id="Home">Backbone Baguette <a href="https://travis-ci.org/spacenick/backbone-baguette"><img src="https://travis-ci.org/spacenick/backbone-baguette.png?branch=master" alt="Travis-ci Backbone Baguette build status" /></a></h1>
+            <p>Welcome on Backbone Baguette! The freshly toasted Backbone library that provides useful components for a quick bootstraping with Backbone in small to medium applications. Write less Backbone code, enjoy your app more! Baguette is <b>1.4Kb</b> minified+gzipped.</p>
+
+            <h3>Classic usage</h3>
+            <p>The Baguette Components can be found under the <b>Backbone.Baguette</b> namespace. To use Baguette, you just need to include the js after Backbone's.</p>
+            <p><a href="https://raw.github.com/spacenick/backbone-baguette/master/backbone.baguette.min.js" class="btn btn-primary btn-success btn-embossed">Download minified version (1.4Kb)</a></p>
+   <!--          <h4 style="margin-top:20px;">Custom build</h4>
+            <p>Coming soon!</p> -->
+
+            <h3 style="margin-top:10px;">AMD usage</h3>
+            <p><a href="#" class="btn btn-small btn-primary" onclick='$("#AMDUsage").slideToggle(); return false;'>Click here to see AMD usage.</a></p>
+            <div id="AMDUsage" style="display:none;">
+            <p>Baguette is wrote in a modular way, and is provided with AMD support (particulary with <a href="http://requirejs.org/" target="new">RequireJS</a>). To use Baguette with Require, first, <a href="https://github.com/spacenick/backbone-baguette/archive/master.zip">download the whole source</a>, extract it somewhere in your application directory, and then, you will need to edit your RequireJS configuration : </p>
+
+            <pre class="prettyprint">
+// Sample config             
+require.config({
+  shim:{
+    'lib/backbone':{
+      deps:['lib/underscore','lib/jquery'],
+      exports:'Backbone'
+    }
+  },
+  paths:{
+    // I've extracted the master.zip to lib/baguette
+    Baguette:'lib/baguette/src',
+    // Alias for r.js compiler
+    Backbone:'lib/backbone'
+  },
+    // Alias : baguette is requiring 'Backbone' module on each components.
+  map:{
+    '*':{
+       'Backbone':'lib/backbone'
+     }
+  }
+})
+</pre>
+            <p><span class="label label-important">Important</span> By default, any Baguette components has a dependency for the 'Backbone' module. If your actual shim for Backbone is not set to the 'Backbone' module ID, you will need to create an alias like above.</p>
+            <p><span class="label label-info">Info</span> In order to make an alias, it seems that you need to define the <b>map</b> property when developing, but also the <b>paths</b> property for the r.js compiler. It's a bit weird but it seems that it's the way Rjs works. Otherwise, you can only use <b>paths</b> but you have to edit your shim label to "Backbone"</p>
+            <p>Now, you will be able to use only the components you need by doing :</p>
+            <pre class="prettyprint">
+define(['Baguette/CollectionView'],function(CollectionView){
+  return CollectionView.extend({
+    // my custom options...
+  });
+});
+</pre>
+</div>
+
+            <h3 id="Sublime">Sublime Text 2 shortcuts</h3>
+            <p>There is a <a href="https://github.com/spacenick/SublimeText2-BackboneBaguette-package" target="new">package available</a> for Sublime Text 2 that allow you to use some handy shortcuts :</p>
+            <p><ul>
+              <li><b>blv</b> Backbone.Baguette.LoadableView</li>
+              <li><b>bmv</b> Backbone.Baguette.ModelView</li>
+              <li><b>bcv</b> Backbone.Baguette.CollectionView</li>
+              <li><b>bcvv</b> Backbone.Baguette.CompositeView</li>
+              </ul>
+                You just have to type them followed by TAB and boom, magic! CoffeeScript is also supported. 100% inspired by <a href="https://github.com/tomasztunik/Sublime-Text-2-Backbone.js-package">Sublime Text 2 Backbone Package</a>
+            </p>
+
+
+
+            <h1 style="margin-top:35px;">Components</h1>
+
+
+            <h3 id="LoadableView">LoadableView</h3>
+            <p>LoadableView is a View that you can inherit from and that supplies a basic Loader handling : it will basically clean the View <b>el</b> and append the loader view when the view's model or collection is syncing with the server.</p>
+            <pre class="prettyprint">
+var LoadingView = Backbone.Baguette.LoadableView.extend({
+  loader:true,
+  initialize:function() {
+    this.listenTo(this.model,'change',this.render);
+  },
+  render:function() {
+    this.$el.html(this.model.get('attribute'));
+    return this;
+  }
+});
+
+var myView = new LoadingView({model:new Backbone.Model({attribute:'foo'})});
+
+myView.render().$el.appendTo('body');
+model.fetch();
+// Spinning loader showing, will be erased from the el by
+// render method when model is synced.
+</pre>
+
+            <p><span class="label label-important">Important</span> Your LoadableView render method must be replacing the <b>el</b> content. If you render method is doing a jQuery.append, the loader <b>el</b> won't be removed, as the LoadingView only listen on the model/collection <b>request</b> event, and relies on the View render method to "remove" it. You can access the associated loader view by doing myLoadingViewInstance.loaderView</p>
+
+            <p><span class="label label-info">Info</span> <a href="#ModelView">ModelViews</a> and <a href="#CollectionView">CollectionViews</a> are extending LoadableView and will take care about everything said above for you.</p>
+
+            <h4>Methods</h4>
+            <p><b>renderLoader</b> <i>no arguments</i>
+                <p>
+                    Empty the View's <b>el</b> and set its content to the Loader <b>el</b>. This method is by default auto-binded on the model (or collection) <b>request</b> event.
+                </p>
+            </p>
+            <p><b>remove</b> <i>no arguments</i>
+                <p>Remove the $el from the DOM, calling first remove on the loader view in order to avoid memory leaks; and then delegating to the default implementation.</p>
+            </p>
+
+            <h4>Properties</h4>
+             <p><i>In Baguette, any property can be either set on the View definition (prototype) or set in the options object given to the constructor.</i></p>
+            <p><b>loader</b> Boolean (default : <i>false</i>)
+                <p>Defines if the View has to handle itself appending the loader to the DOM etc. This is disabled by default as ModelView and CollectionView are extending from LoadableView.</p>
+            </p>
+            <p><b>loaderView</b> Backbone.View extending Function (default : <i><a href="#Loader">Backbone.Baguette.Loader</a></i>)
+                <p>Defines the View to be used as a loader. Default is a Backbone.Baguette.Loader (a simple div.loader)</p>
+            </p>
+
+            <h3 id="ModelView">ModelView <small>(extends <a href="#LoadableView">LoadableView</a>)</small></h3>
+            <p>ModelView is a powered Backbone.View that is able to render its content using a string <b>tpl</b> attribute. ModelView are also <b>auto-binded</b> by default on their model <b>change</b> event (calling their <b>render</b> method when it occurs). That is, you don't have to write again and again the redunant templating and event-binding code.</p>
+            <pre class="prettyprint">
+var car = new Backbone.Model({brand:"Peugeot",name:"405"});
+
+var ModelView = Backbone.Baguette.ModelView.extend({
+  tpl:"My car is a {{brand}} {{name}}"
+});
+
+var myView = new ModelView({model:car});
+
+myView.render().$el.appendTo('body');
+// "My car is a Peugeot 405" inserted to body
+
+car.set({name:'508'});
+// View refreshed "My car is a Peugeot 508"
+</pre>
+<p><a href="#" class="btn btn-primary" onclick='$("#exampleModelView").slideToggle(); return false;'>See this example without Baguette</a></p>
+<pre class="prettyprint" style="display:none; margin-top:20px;" id="exampleModelView">
+var car = new Backbone.Model({brand:"Peugeot",name:"405"});
+
+var ModelView = Backbone.View.extend({
+  initialize:function() {
+    this.listenTo(this.model,'change',this.render);
+  },
+  render:function() {
+   this.$el.html(Handlebars.compile("My car is a {{brand}} {{name}}")(this.model.toJSON()));
+   return this;
+  }
+});
+
+var myView = new ModelView({model:car});
+
+myView.render().$el.appendTo('body');
+// "My car is a Peugeot 405" inserted to body
+
+car.set({name:'508'});
+// View refreshed "My car is a Peugeot 508"
+</pre>
+
+<p>You can also use a <b>ModelView</b> without a model but with a <b>tpl</b>, in order to quickly render a static template.</p>
+
+    <h4>Methods</h4>
+    <p><b>render</b> <i>no arguments</i></p>
+    <p>Render the current ModelView, setting its <b>el</b> element using its template and its model data as context. Return the current object for method chaining.</p>
+
+    <h4>Properties</h4>
+    <p><i>In Baguette, any property can be either set on the View definition (prototype) or set in the options object given to the constructor.</i></p>
+    <p>
+        <b>tpl</b> String (default : "")
+        <p>Defines a String template to be used by the templating engine to render the HTML content for the view.</p>
+    </p>
+    <p>
+        <b>noBind</b> Boolean (default : <i>false</i>)
+        <p>Prevent the ModelView from auto-binding its render method to the model "change" event</p>
+    </p>
+    <p>
+        <b>templating</b> Function (default : <i><a href="#templating">Backbone.Baguette.Templating</a></i>)
+        <p>Define a custom templating function <b>only</b> on this view, that takes a string template and a JSON model as arguments.</p>
+        <p>Default behavior is to delegate to Backbone.Baguette.Templating which use Handlebars by default.</p>
+        <pre class="prettyprint">
+var myView = Backbone.Baguette.ModelView.extend({
+  templating:Mustache.to_html
+});
+</pre>
+    </p>
+     <p>
+        <b>compiledTemplate</b> Function (default : <i>undefined</i>)
+        <p>Use this templating function to render the View content. In this case, the <b>tpl</b> and <b>templating</b> attributes will be ignored if set. This option is intended to be used for instance with <a href="http://handlebarsjs.com/precompilation.html" target="new">Handlebars precompiled templates</a>.</p>
+        <pre class="prettyprint">
+var myView = Backbone.Baguette.ModelView.extend({
+  compiledTemplate:Handlebars.template["myTemplate"] 
+});
+</pre>
+    </p>
+    <p>
+        <b>Inherited options</b>
+    </p>
+    <p>
+        <b>loader</b> Boolean (default : <i>false</i>)
+        <p>
+            Set this option to true if you want to show a spinning loader when model is syncing with the server.
+        </p>
+
+    </p>
+    <p>
+        <b>loaderView</b> Backbone.View extending Function (default : <i><a href="#Loader">Backbone.Baguette.Loader</a></i>)
+        <p>
+            Override this if you want to specify a custom View for the loader.
+        </p>
+
+    </p>
+
+            <h3 id="CollectionView">CollectionView <small>(extends <a href="#LoadableView">LoadableView</a>)</small></h3>
+            <p>CollectionView allow you to auto-render sub-model views in an elegant way. CollectionViews are also auto-binded to collection add, reset and remove events (calling the render method and repainting the model views when it occurs).</p>
+            <pre class="prettyprint">
+var peugeot = new Backbone.Model({brand:"Peugeot",name:"508"});
+var renault = new Backbone.Model({brand:"Renault",name:"11"});
+var myGarage = new Backbone.Collection([peugot,renault]);
+
+var CarView = Backbone.Baguette.ModelView.extend({tpl:"My car is a {{brand}} {{name}}"});
+var MyGarageView = Backbone.Baguette.CollectionView.extend({
+  modelView:CarView,
+  loader:true
+});
+var myGarageView = new GarageView({collection:myGarage});
+myGarageView.render().$el.appendTo('body');
+// My two CarViews are appended to the DOM
+// Wrapped by the GarageView element (div by default)
+
+myGarage.add(new Backbone.Model({brand:"Citroën",name:"C3"}));
+// View refreshed, the new CarView is added!
+myGarage.fetch();
+// Loader is popping up untill data comes!
+myGarageView.remove();
+// All inner views are properly removed to avoid memory leaks
+</pre>
+<p><a href="#" class="btn btn-primary" onclick='$("#exampleCollectionView").slideToggle(); return false;'>See this example without Baguette</a></p>
+<pre class="prettyprint" style="display:none; margin-top:20px;" id="exampleCollectionView">
+var peugeot = new Backbone.Model({brand:"Peugeot",name:"508"});
+var renault = new Backbone.Model({brand:"Renault",name:"11"});
+var myGarage = new Backbone.Collection([peugot,renault]);
+
+var CarView = Backbone.Baguette.ModelView.extend({tpl:"My car is a {{brand}} {{name}}"});
+var MyGarageView = Backbone.View.extend({
+  initialize:function() {
+    this._views = [];
+    this.listenTo(this.collection,'add reset remove',this.render);
+  },
+  render:function() {
+    var that = this;
+    this.clean();
+    this.collection.each(function(model){
+      var tempView = new CarView({model:model});
+      that.$el.append(tempView.render().$el);
+      that._views.push(tempView);      
+    });
+    return this;
+  },
+  clean:function() {
+   this._views.each(function(view){
+      view.remove();
+    });
+    this.views = [];
+    return this;
+  }, 
+  remove:function() {
+    this.clean();
+    Backbone.View.prototype.remove.call(this);
+    return this;
+  }
+});
+// ^ And I don't even write the loader code
+
+var myGarageView = new GarageView({collection:myGarage});
+myGarageView.render().$el.appendTo('body');
+// My two CarViews are appended to the DOM
+// Wrapped by the GarageView element (div by default)
+
+myGarage.add(new Backbone.Model({brand:"Citroën",name:"C3"}));
+// View refreshed, the new CarView is added!
+myGarage.fetch();
+// Loader is popping up untill data comes!
+</pre>
+    <h4>Methods</h4>
+
+    <p><b>render</b> <i>no arguments</i>
+        <p>
+            Render the whole collection view, creating on the fly nested model views. Returns as well the current object so you can do some methods chaining.
+        </p>
+
+    </p>
+
+    <p><b>clean</b> <i>no arguments</i>
+        <p>
+            Empty the current <b>el</b>, destroying correctly subviews and avoiding memory leaks.
+        </p>
+    </p>
+
+    <h4>Properties</h4>
+     <p><i>In Baguette, any property can be either set on the View definition (prototype) or set in the options object given to the constructor.</i></p>
+    <p>
+        <b>modelView</b> Backbone.View extending Function <b>or</b> Object (default : </i><a href="#ModelView">Backbone.Baguette.ModelView</a></i>)
+        <p>Specify a custom view to be used for rendering nested model Views. You can also give an object containing the same options that you would define directly in a ModelView for instance.</p>
+        <pre class="prettyprint">
+var MyGarageView = Backbone.Baguette.CollectionView.extend({
+  tagName:'ul',
+  modelView:{
+    tagName:'li',
+    tpl:"{{brand}} - {{name}}"
+  }
+  // ^ Will create Backbone.Baguette.ModelView
+  // instantiating them with these options
+});
+</pre>
+    </p>
+
+
+    <p>
+        <b>noBind</b> Boolean (default : <i>false</i>)
+        <p>Prevent the CollectionView from auto-binding its render method to the collection "add reset remove" events.</p>
+    </p>
+    <p>
+
+    <p>
+        <b>Inherited properties</b>
+    </p>
+    <p>
+        <b>loader</b> Boolean (default : <i>false</i>)
+        <p>
+            Set this option to true if you want to show a spinning loader when the collection is syncing with the server.
+        </p>
+
+    </p>
+    <p>
+        <b>loaderView</b> Backbone.View extending Function (default : <i><a href="#Loader">Backbone.Baguette.Loader</a></i>)
+        <p>
+            Override this if you want to specify a custom View for the loader.
+        </p>
+
+    </p>
+
+    <h3 id="CompositeView">CompositeView <small>(extends <a href="#ModelView">ModelView</a>)</small></h3>
+    <p>CompositeViews enable you to handle your nested views in a simple and elegant way. As it is extending from <a href="#ModelView">ModelView</a>, it can handle a model as arguments; and more than handling nested views, it also allows you to handle nested models and collections and pass them correctly to your nested views.</p>
+
+    <pre class="prettyprint">
+var complexModel = new Backbone.Model({simpleString:"hello"});
+complexModel.set('subModel', new Backbone.Model({attribute:"I'm a sub model!"}));
+
+var SubModelView = Backbone.Baguette.ModelView.extend({
+  tpl:"This is so much my attribute value : {{attribute}}"
+});
+
+var ComplexModelView = Backbone.Baguette.CompositeView.extend({
+  tagName:"p",
+  tpl:'&lt;div class="header"&gt;Welcome {{simpleString}}&lt;/div&gt;&lt;div class="content"&gt;&lt;/div&gt;',
+  nestedViews:{
+    '.content':{
+      view:SubModelView,
+      modelAttribute:'subModel'
+    }
+  }
+});
+var cmv = new ComplexModelView({model:complexModel});
+cmv.render().$el.appendTo('body');
+// Inserted to body:
+//&lt;p&gt;
+//&lt;div class="header"&gt;Welcome hello&lt;/div&gt;
+//&lt;div class="content"&gt;This is so much my attribute value : I'm a sub model!&lt;/div&gt;
+//&lt;/p&gt;
+</pre>
+    <h4>Methods</h4>
+
+    <p><b>render</b> <i>no arguments</i>
+        <p>
+            Render the whole composite view, creating on the fly nested views and passing them at instantiation time either a specific sub-model or sub-collection. Returns as well the current object so you can do some methods chaining.
+        </p>
+
+    </p>
+
+    <p><b>clean</b> <i>no arguments</i>
+        <p>
+            Empty the current <b>el</b>, destroying correctly subviews and avoiding memory leaks.
+        </p>
+    </p>
+
+    <h4>Properties</h4>
+     <p><i>In Baguette, any property can be either set on the View definition (prototype) or set in the options object given to the constructor.</i></p>
+    <p>
+        <b>nestedViews</b> Object (default : {})
+        <p>An object containing jQuery type selector (String) as keys and Views (or parameter Object) as values</p>
+        <pre class="prettyprint">
+// Different nestedViews configurations
+nestedViews:{
+  '.subview1 > #soSubbed':ViewDefinition,
+  '.subview1 > #soSubbed':{
+    view:ViewDefinition
+  } // ^ Both are ===
+}
+//
+nestedViews:{
+  '#main':{
+    view:MyView,
+// By default, Baguette will set the el of the nested view to the matched DOM element
+// If you want that your sub view still generates its el with its className etc set it to false
+    setElement:false
+  }
+}
+nestedViews:{
+  '#main':{
+    view:MyView,
+    collectionAttribute:'innerCollection',
+    // ^ MyView will be given {collection:model.get('innerCollection')} at instantiation time
+    // where model is the model given to your CompositeView
+    render:false
+    // ^ Prevent auto-render of subviews
+  }
+}
+
+</pre>
+    </p>
+      <p>
+        <b>Inherited properties</b>
+    </p>
+    <p>
+      <span class="label label-info">Properties</span> CompositeViews are extending ModelView (which are inheriting from LoadableView). It means you can still give a tpl to a CompositeView, define if it has to print a loader (loader:true), etc...
+    </p>
+    <p><span class="label label-warning">nestedViews properties</span> Your nestedViews are given the collection and model attributes of your CompositeView (if set), <b>unless</b> you specified a modelAttribute or collectionAttribute property.</p>
+    <p><span class="label label-alert">Nesting nested.</span> You can also nest a CompositeView inside a CompositeView and so on... You don't need to always give a model to a CompositeView, so you can also use it as a kind of LayoutManager (for instance for a navigation bar with buttons)</p>
+    <p><span class="label label-info">Subviews Binding</span> If one of your nested views is a <a href="#CollectionView">CollectionView</a> or a <a href="#ModelView">ModelView</a>, it will still be binded to the given collection/model, so your nested views are able to re-render themselves without repaiting the whole CompositeView.</p>
+
+
+    <h1>Global Configuration</h1>
+    <h3 id="Templating">Templating</h3>
+    <p>The global templating function that is used by default by <a href="#ModelView">ModelViews</a> is accessible via <b>Backbone.Baguette.Templating</b>. Override it if you use a custom template engine. The default implementation is :
+    </p>
+    <pre class="prettyprint">
+Backbone.Baguette.Templating = function(tpl,data) {
+    return Handlebars.compile(tpl)(data);
+};
+</pre>
+
+    <h3 id="Loader">Loader View</h3>
+    <p>By default, the <b>loaderView</b> property of a <a href="#LoadableView">LoadableView</a> is <b>Backbone.Baguette.Loader</b> which has a very simple default implementation :</p>
+    <pre class="prettyprint">
+var Backbone.Baguette.Loader = Backbone.View.extend({
+    className:'loader'
+});        
+</pre>
+    <p>With a that basic implementation, you can already do some cool stuff using only CSS. Here is a basic CSS definition for the loader class that can be used pretty much anywhere on your application.</p>
+    <pre class="prettyprint">
+.loader {
+    width:32px;
+    height:32px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-top:-16px;
+    margin-left:-16px;
+    background:url('images/ajax-spinner-32.gif') no-repeat;
+}
+    </pre>
+    <p><span class="label label-important">Important</span> This implementation assumes that the parent container (so it can be a LoadingView's <b>el</b>) has position:relative set and also has a min-height (since the loader has an absolute position).</p>
+
+
+      </div>
+
+    <div style="clear:both;"></div>
+
+
+    <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="scripts/vendor/8bc61845.jquery.min.js"><\/script>')</script>
+    
+    
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+        var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
+    </script>
+
+    <script>
+        $(function(){
+
+            $('.sidebar-nav').css('min-height',$(window).height()+'px');
+            $('a').on('click',function(){
+                //$('li.active').removeClass('active');
+                //$(this).parent().addClass('active');
+                console.log($(this).attr('href'))
+                if (/^#/.test($(this).attr('href'))) {
+                    $('li.active').removeClass('active');
+
+                    $('.sidebar-nav a[href="'+$(this).attr('href')+'"]').parent().addClass('active');
+                }
+            })
+        });
+    </script>
+  
+    <script src="scripts/plugins.js"></script>
+</body>
+</html>
