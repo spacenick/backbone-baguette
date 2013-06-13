@@ -26,7 +26,7 @@
 
 })(this,function(){
     // List of our attributes
-    var BaguetteCustomAttributes = ["noBind","tpl","modelView","templating","nestedViews","loaderView","loader"];
+    var BaguetteCustomAttributes = ["noBind","tpl","modelView","templating","nestedViews","loaderView","loader", "add"];
 
     return {
 

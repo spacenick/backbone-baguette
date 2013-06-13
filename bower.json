@@ -1,0 +1,10 @@
+{
+  "name": "backbone-baguette",
+  "version": "0.2.0",
+  "main": "backbone.baguette.min.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}
